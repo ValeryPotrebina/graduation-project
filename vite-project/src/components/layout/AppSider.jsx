@@ -1,5 +1,5 @@
 import React from "react";
-import {Layout} from "antd";
+import {Card, Layout} from "antd";
 import {useSubjects} from "../../context/courses-context";
 
 const siderStyle = {
@@ -10,22 +10,28 @@ const siderStyle = {
 export default function AppSider() {
   const {coursesData, loading, error} = useSubjects();
 
-  if (loading) {
-    return <div>Загрузка...</div>; // Пока идет загрузка
-  }
+  // if (loading) {
+  //   return <div>Загрузка...</div>; // Пока идет загрузка
+  // }
 
-  if (error) {
-    return <div>Ошибка: {error.message}</div>; // В случае ошибки
-  }
+  // if (error) {
+  //   return <div>Ошибка: {error.message}</div>; // В случае ошибки
+  // }
 
   return (
     <Layout.Sider width="25%" style={siderStyle}>
-      <h2>Доступные курсы</h2>
-      <ul>
-        {coursesData.map((subject) => (
-          <li key={subject.id}>{subject.name}</li>
-        ))}
-      </ul>
+      {coursesData.map((subject) => (
+        <Card key={subject.id} style={{ 
+          marginBottom: "1rem", 
+          color: "#fff",
+          backgroundColor: "#1a73e8",
+          border: "1px solid #fff"
+          }}>
+          <h3>{subject.name}</h3>
+          <p>Количество часов: {subject.amount_of_hours}</p>
+          <p>Кафедра: {subject.department}</p>
+        </Card>
+      ))}
     </Layout.Sider>
   );
 }
