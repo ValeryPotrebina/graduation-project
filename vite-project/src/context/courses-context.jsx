@@ -9,6 +9,8 @@ export function CoursesContextProvider({ children }) {
   const [loading, setLoading] = useState(false); // Статус загрузки данных
   const [error, setError] = useState(null); // Статус ошибки
 
+  const [selectedSubject, setSelectedSubject] = useState(null);
+
   useEffect(() => {
     async function loadSubjects() {
       try {
@@ -25,7 +27,15 @@ export function CoursesContextProvider({ children }) {
   }, []);
 
   return (
-    <CoursesContext.Provider value={{ coursesData, loading, error }}>
+    <CoursesContext.Provider
+      value={{
+        coursesData,
+        loading,
+        error,
+        selectedSubject,
+        setSelectedSubject,
+      }}
+    >
       {children}
     </CoursesContext.Provider>
   );

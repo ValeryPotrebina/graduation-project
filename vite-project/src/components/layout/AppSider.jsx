@@ -8,7 +8,8 @@ const siderStyle = {
 };
 
 export default function AppSider() {
-  const {coursesData, loading, error} = useSubjects();
+  const {coursesData, loading, error, setSelectedSubject} = useSubjects();
+  
 
   // if (loading) {
   //   return <div>Загрузка...</div>; // Пока идет загрузка
@@ -25,8 +26,10 @@ export default function AppSider() {
           marginBottom: "1rem", 
           color: "#fff",
           backgroundColor: "#1a73e8",
-          border: "1px solid #fff"
-          }}>
+          border: "1px solid #fff",
+          cursor: "pointer", 
+          }}
+          onClick={() => setSelectedSubject(subject)}>
           <h3>{subject.name}</h3>
           <p>Количество часов: {subject.amount_of_hours}</p>
           <p>Кафедра: {subject.department}</p>
