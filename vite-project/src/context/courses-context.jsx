@@ -1,11 +1,10 @@
 import { createContext, useEffect, useContext, useState } from "react";
-import { subjects } from "../data";
-import { getSubjects } from "../api";
+import getData from "../get-data";
 
 const CoursesContext = createContext();
 
 export function CoursesContextProvider({ children }) {
-  const [coursesData, setCoursesData] = useState(subjects);
+  const [coursesData, setCoursesData] = useState(null);
   const [loading, setLoading] = useState(false); // Статус загрузки данных
   const [error, setError] = useState(null); // Статус ошибки
 
@@ -15,7 +14,7 @@ export function CoursesContextProvider({ children }) {
     async function loadSubjects() {
       try {
         setLoading(true);
-        const data = await getSubjects();
+        const data = await getData();
         setCoursesData(data);
         setLoading(false);
       } catch (error) {

@@ -11,9 +11,6 @@ export default function AppSider() {
   const {coursesData, loading, error, setSelectedSubject} = useSubjects();
   
 
-  // if (loading) {
-  //   return <div>Загрузка...</div>; // Пока идет загрузка
-  // }
 
   // if (error) {
   //   return <div>Ошибка: {error.message}</div>; // В случае ошибки
@@ -21,7 +18,8 @@ export default function AppSider() {
 
   return (
     <Layout.Sider width="25%" style={siderStyle}>
-      {coursesData.map((subject) => (
+      {loading && <div>Загрузка...</div>}
+      {coursesData && coursesData.map((subject) => (
         <Card key={subject.id} style={{ 
           marginBottom: "1rem", 
           color: "#fff",
