@@ -1,4 +1,3 @@
-from pydantic import BaseModel
 from sqlalchemy import Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from config.database import Base
@@ -13,15 +12,6 @@ class Course(Base):
     semester: Mapped[int] = mapped_column(Integer, nullable=False)
     # materials: Mapped[list["Material"]] = relationship("Material", back_populates="course")
     
-class CourseSchema(BaseModel):
-    id: int
-    name: str
-    description: str | None
-    semester: int
-
-    class Config:
-        from_attributes = True
-
 # class Material(Base):
 #     __tablename__ = "material"
 

@@ -1,8 +1,8 @@
 import asyncio
 from config.database import async_session_maker
-from services.course_service import get_all_courses, add_course
+from services.course_servise import get_all_courses, add_course
 # from services.material_servise import 
-from models.models import Course, Material
+from models.course import Course, Material
 
 async def test():
     async with async_session_maker() as db:

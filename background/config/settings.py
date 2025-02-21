@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     DB_NAME: str
 
 #  Теперь dotenv не нужен, потому что Pydantic сам загружает .env!
-    model_config = SettingsConfigDict(env_file="background/config/config.env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(env_file="./config/config.env", env_file_encoding="utf-8")
 
     def get_db_url(self) -> str:
         """Формируем строку подключения к PostgreSQL через asyncpg"""
