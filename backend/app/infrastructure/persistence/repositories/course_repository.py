@@ -26,3 +26,12 @@ class CourseRepository(ICourseRepository):
         )
         self.db.add(new_course)
         await self.db.commit()
+
+    # async def search(self, query: str) -> list[Course]:
+    #     result = await self.db.execute(
+    #         select(CourseModel).filter(
+    #             CourseModel.name.ilike(f"%{query}%"),  # Поиск по имени
+    #         )
+    #     )
+    #     rows = result.scalars().all()
+    #     return [Course(id=row.id, name=row.name, description=row.description, semester=row.semester) for row in rows]

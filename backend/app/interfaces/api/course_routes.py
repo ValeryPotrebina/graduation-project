@@ -27,3 +27,10 @@ async def create_course(course_data: CourseCreateSchema, db: AsyncSession = Depe
     use_cases = CourseUseCases(repo)
     course = await use_cases.create_course(course_data.name, course_data.description, course_data.semester)
     return CourseSchema.model_validate(course)
+
+# @router.get("/search", response_model=list[CourseSchema])
+# async def search_courses(query: str, db: AsyncSession = Depends(get_db)):
+#     repo = CourseRepository(db)
+#     use_cases = CourseUseCases(repo)
+#     courses = await use_cases.search_courses(query)
+#     return [CourseSchema.model_validate(course) for course in courses]

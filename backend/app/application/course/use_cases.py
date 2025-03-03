@@ -14,3 +14,6 @@ class CourseUseCases:
 
     async def get_all_courses(self) -> List[Course]:
         return await self.course_repo.get_all()
+
+    # async def search_courses(self, query: str) -> List[Course]:
+    #     return await self.course_repo.search(query)

@@ -14,7 +14,7 @@ const headerStyle = {
 };
 
 export default function AppHeader() {
-  const [courses, setCourses] = useState([]); // Список курсов
+  const [courses, setCourses] = useState([]); 
 
   useEffect(() => {
     async function loadCourses() {
@@ -32,6 +32,7 @@ export default function AppHeader() {
   return (
     <Layout.Header style={headerStyle}>
       <Select
+      showSearch
         style={{
           width: 300,
         }}
@@ -40,7 +41,8 @@ export default function AppHeader() {
         filterSort={(optionA, optionB) =>
           (optionA?.label ?? "")
             .toLowerCase()
-            .localeCompare((optionB?.label ?? "").toLowerCase())
+            .localeCompare((optionB?.label ?? "")
+            .toLowerCase())
         }
         options={coursesOptions}
       />

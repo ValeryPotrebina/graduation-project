@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8000/api/courses"; // Убедись, что сервер запущен!
+const BASE_URL = "http://localhost:8000/api/courses"; 
 
 export async function fetchCourses() {
   try {

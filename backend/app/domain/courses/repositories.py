@@ -9,6 +9,6 @@ class ICourseRepository(ABC):
     async def save(self, course: Course) -> None:
         ...
 
-    @abstractmethod
-    async def delete(self, course: Course) -> None:
-        ...
+    # @abstractmethod
+    # async def search(self, course: Course) -> None:
+    #     ...
