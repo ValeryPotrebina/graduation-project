@@ -1,7 +1,5 @@
 pip install -r requirements.txt
 
-![alt text](image.png)
-
 1. Подготовить и загрузить данные для обучения
 2. обучить модель
 3. оценить результаты
@@ -195,3 +193,7 @@ TODO:
 
 # database
 все сущности в image.png
+
+
+ DDD (Domain Driven Design),
+ poetry
