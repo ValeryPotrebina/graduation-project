@@ -11,3 +11,13 @@ export async function fetchCourses() {
     return [];
   }
 }
+
+export async function fetchCourseMaterials(courseId) {
+  try {
+    const response = await axios.get(`${BASE_URL}/${courseId}/materials`);
+    return response.data;
+  } catch (error) {
+    console.error("Ошибка загрузки материалов курса:", error);
+    return [];
+  }
+}
