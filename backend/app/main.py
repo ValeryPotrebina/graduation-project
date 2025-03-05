@@ -1,10 +1,12 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.interfaces.api.auth import router as auth_router
 from app.interfaces.api.course_routes import router as course_router
 from app.infrastructure.config.database import get_db, Base
 from app.infrastructure.config.database import engine
 from contextlib import asynccontextmanager
+
 import logging
 
 # Настройка логирования
@@ -33,7 +35,8 @@ app.add_middleware(
 )
 
 # Подключаем маршруты API
-app.include_router(course_router)
+app.include_router(auth_router, prefix="/api", tags=["Auth"])
+app.include_router(course_router, prefix="/api/courses", tags=["Courses"])
 
 if __name__ == "__main__":
     import uvicorn
