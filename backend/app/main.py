@@ -1,30 +1,28 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.interfaces.api.auth import router as auth_router
-from app.interfaces.api.course_routes import router as course_router
-from app.infrastructure.config.database import get_db, Base
-from app.infrastructure.config.database import engine
+# from app.interfaces.api.auth import router as auth_router
+from app.interfaces.api import router
+from app.infrastructure.config.database import db_helper
 from contextlib import asynccontextmanager
-
+from app.infrastructure.config.settings import settings
 import logging
+
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)  # Уровень логирования INFO
 logger = logging.getLogger(__name__)  # Получаем логгер для текущего модуля
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    try:
-        logger.info("Подключение к базе данных...")
-        async with engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
-        logger.info("Подключение к базе данных прошло успешно!✅")
-        yield
-    except Exception as e:
-        logger.error(f"Произошла ошибка при подключении к базе данных: {e}")
-        raise
+    yield
 
-app = FastAPI(title="DDD Example", lifespan=lifespan)
+app = FastAPI(lifespan=lifespan)
+app.include_router(
+    router=router,
+    prefix=settings.api_prefix
+)
 # Разрешаем запросы с фронтенда (CORS)
 app.add_middleware(
     CORSMiddleware,
@@ -34,9 +32,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 # Подключаем маршруты API
-app.include_router(auth_router, prefix="/api", tags=["Auth"])
-app.include_router(course_router, prefix="/api/courses", tags=["Courses"])
+# app.include_router(auth_router, prefix="/api", tags=["Auth"])
+# app.include_router(course_router)
+
+# async def main():
+#     async with db_helper.session_dependency() as session:
+#         await session.execute("SELECT 1")
+
 
 if __name__ == "__main__":
     import uvicorn

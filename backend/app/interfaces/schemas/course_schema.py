@@ -1,16 +1,18 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
-class CourseCreateSchema(BaseModel):
+class CourseBase(BaseModel):
     name: str
     description: Optional[str] = None
     semester: int
 
-class CourseSchema(BaseModel):
+class CourseCreateSchema(CourseBase):
     id: int
-    name: str
-    description: str
-    semester: int
+    pass
 
-    class Config:
-        from_attributes = True
+class CourseUpdateSchema(CourseBase):
+    pass
+
+class CourseSchema(CourseBase):
+    id: int
+    model_config = ConfigDict(from_attributes=True) 

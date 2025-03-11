@@ -1,17 +1,23 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-class Settings(BaseSettings):
-    DB_USER: str
-    DB_PASSWORD: str
-    DB_HOST: str
-    DB_PORT: int
-    DB_NAME: str
 
-    #  Теперь dotenv не нужен, потому что Pydantic сам загружает .env!
+class DbSettings(BaseSettings):
+    echo: bool = True
+    USER: str
+    PASSWORD: str
+    HOST: str
+    PORT: int
+    NAME: str
+
     model_config = SettingsConfigDict(env_file="./app/infrastructure/config/config.env", env_file_encoding="utf-8")
 
     def get_db_url(self) -> str:
-        """Формируем строку подключения к PostgreSQL через asyncpg"""
-        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        return f"postgresql+asyncpg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.NAME}"
 
+
+class Settings(BaseSettings):
+    api_prefix: str = "/api"
+    db: DbSettings = DbSettings() 
+
+    
 settings = Settings()

@@ -3,35 +3,28 @@ from app.domain.courses.repositories import ICourseRepository
 from app.domain.courses.models import Course
 from app.infrastructure.persistence.orm_models import CourseModel
 from sqlalchemy.ext.asyncio import AsyncSession
-'''
-Это конкретная реализация репозитория для работы с базой данных. 
-Здесь используется SQLAlchemy для асинхронного доступа к данным в базе данных. 
-Репозиторий получает данные из таблицы базы данных и преобразует их в объекты бизнес-логики (Course), 
-а также сохраняет новые объекты.'''
+from sqlalchemy.engine import Result
+from app.interfaces.schemas.course_schema import CourseSchema, CourseBase, CourseCreateSchema, CourseUpdateSchema
+# CRUD
+
 class CourseRepository(ICourseRepository):
-    def __init__(self, db: AsyncSession):
-        self.db = db
+    def __init__(self, session: AsyncSession):
+        self.session = session
 
-    async def get_all(self) -> list[Course]:
-        result = await self.db.execute(select(CourseModel))
-        rows = result.scalars().all()
-        return [Course(id=row.id, name=row.name, description=row.description, semester=row.semester) for row in rows]
+    async def get_courses(self) -> list[Course]:
+        stmt = select(CourseModel).order_by(CourseModel.id)
+        result: Result = await self.session.execute(stmt)
+        courses = result.scalars().all()
+        return [Course(id=course.id, name=course.name, description=course.description, semester=course.semester) for course in courses]
 
-    async def save(self, course: Course) -> None:
+    async def create_course(self, course_in: Course) -> Course:
         new_course = CourseModel(
-            id=course.id,
-            name=course.name,
-            description=course.description,
-            semester=course.semester
+            id=course_in.id,
+            name=course_in.name,
+            description=course_in.description,
+            semester=course_in.semester
         )
-        self.db.add(new_course)
-        await self.db.commit()
+        self.session.add(new_course)
+        await self.session.commit()
+        return course_in
 
-    # async def search(self, query: str) -> list[Course]:
-    #     result = await self.db.execute(
-    #         select(CourseModel).filter(
-    #             CourseModel.name.ilike(f"%{query}%"),  # Поиск по имени
-    #         )
-    #     )
-    #     rows = result.scalars().all()
-    #     return [Course(id=row.id, name=row.name, description=row.description, semester=row.semester) for row in rows]

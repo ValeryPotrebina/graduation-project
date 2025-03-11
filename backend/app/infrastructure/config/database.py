@@ -1,20 +1,26 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
-from sqlalchemy.orm import DeclarativeBase
 from app.infrastructure.config.settings import settings
 
-DATABASE_URL = settings.get_db_url()
+class DatabaseHelper:
+    def __init__(self, url: str, echo: bool = False):
 
-# Создаем асинхронный движок
-engine = create_async_engine(DATABASE_URL, echo=True)
+        self.engine = create_async_engine(
+            url=url, 
+            echo=echo
+            )
+        
+        self.session_factory = async_sessionmaker(
+            bind=self.engine,
+            expire_on_commit=False,
+            class_=AsyncSession
+        )
+    
+    async def session_dependency(self) -> AsyncSession:
+        async with self.session_factory() as session:
+            yield session
+            await session.close()
 
-# Создаем асинхронную сессию
-async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
-
-# Базовый класс для моделей
-class Base(DeclarativeBase):
-    __abstract__ = True
-
-# Функция для получения асинхронной сессии
-async def get_db():
-    async with async_session_maker() as session:
-        yield session
+db_helper = DatabaseHelper(
+    url=settings.db.get_db_url(),
+    echo=settings.db.echo
+    )
