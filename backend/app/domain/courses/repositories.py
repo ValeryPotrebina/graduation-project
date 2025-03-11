@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from .models import Course, CourseMaterial
+from .models import Course
 class ICourseRepository(ABC):
     @abstractmethod
     async def get_courses(self) -> list[Course]:
@@ -10,10 +10,5 @@ class ICourseRepository(ABC):
         ...
 
     # @abstractmethod
-    # async def search(self, course: Course) -> None:
+    # async def get_course_by_id(self, course_id: int) -> Course:
     #     ...
-
-class ICourseMaterialRepository(ABC):
-    @abstractmethod
-    async def get_all_by_course(self, course_id: int) -> list[CourseMaterial]:
-        ...

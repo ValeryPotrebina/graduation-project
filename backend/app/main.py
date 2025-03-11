@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from app.interfaces.api.auth import router as auth_router
-from app.interfaces.api import router
+from app.interfaces.routes import router
 from app.infrastructure.config.database import db_helper
 from contextlib import asynccontextmanager
 from app.infrastructure.config.settings import settings

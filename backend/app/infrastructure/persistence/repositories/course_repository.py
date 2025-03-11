@@ -1,10 +1,9 @@
 from sqlalchemy import select
-from app.domain.courses.repositories import ICourseRepository
-from app.domain.courses.models import Course
+from app.domain import ICourseRepository
+from app.domain import Course
 from app.infrastructure.persistence.orm_models import CourseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.engine import Result
-from app.interfaces.schemas.course_schema import CourseSchema, CourseBase, CourseCreateSchema, CourseUpdateSchema
 # CRUD
 
 class CourseRepository(ICourseRepository):

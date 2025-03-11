@@ -1,6 +1,6 @@
 from typing import List
-from app.domain.courses.models import Course, CourseMaterial
-from app.domain.courses.repositories import ICourseRepository, ICourseMaterialRepository
+from app.domain import Course
+from app.domain import ICourseRepository
 '''Этот слой не зависит от того, как данные будут храниться (база данных, API и т.д.), 
     а лишь предоставляет интерфейс для работы с ними. он просто использует абстракцию репозитория, предоставленную в слое domain.'''
 class CourseUseCases:
@@ -16,10 +16,3 @@ class CourseUseCases:
         await self.course_repo.create_course(new_course)
         return new_course
 
-    # async def get_course_materials(self, course_id: int) -> List[CourseMaterial]:
-
-    #     # course = await self.course_repo.get_by_id(course_id)
-    #     # if not course:
-    #     #     raise CourseNotFoundException("Курс не найден")
-
-    #     return await self.course_material_repo.get_all_by_course(course_id)
