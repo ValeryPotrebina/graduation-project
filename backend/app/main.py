@@ -21,7 +21,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(
     router=router,
-    prefix=settings.api_prefix
+    prefix=settings.api.prefix
 )
 # Разрешаем запросы с фронтенда (CORS)
 app.add_middleware(
@@ -31,15 +31,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-# Подключаем маршруты API
-# app.include_router(auth_router, prefix="/api", tags=["Auth"])
-# app.include_router(course_router)
-
-# async def main():
-#     async with db_helper.session_dependency() as session:
-#         await session.execute("SELECT 1")
 
 
 if __name__ == "__main__":

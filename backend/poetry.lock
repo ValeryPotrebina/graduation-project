@@ -1148,4 +1148,4 @@ test = ["capstone (==5.0.1) ; python_version <= \"3.7\"", "capstone (==6.0.0a2) 
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "55fa4b8054960166468740d9b4bfd29f16aa59293938b528bf20e41a3e4b0536"
+content-hash = "596de917011f7865ee607cb4360b3ed76f05d9fc44f13a0b3c6ef4aa54eaadb4"

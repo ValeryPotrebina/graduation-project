@@ -1,16 +1,20 @@
 from fastapi import APIRouter, Depends
 from app.use_cases import CourseUseCases, MaterialUseCases
 from app.infrastructure.persistence.repositories import CourseRepository, MaterialRepository
-from app.interfaces import CourseSchema, CourseCreateSchema, MaterialSchema, MaterialCreateSchema, MaterialUpdateSchema
+from app.interfaces.schemas import CourseSchema, CourseCreateSchema, MaterialSchema, MaterialCreateSchema, MaterialUpdateSchema
 from app.infrastructure.config.database import db_helper
 from sqlalchemy.ext.asyncio import AsyncSession
+from app.infrastructure.config.settings import settings
 
-router = APIRouter()
+router = APIRouter(
+    prefix=settings.api.courses,
+    tags=["Courses"],
+)
 
 
 @router.get("/", response_model=list[CourseSchema])
 async def get_courses(
-        session: AsyncSession = Depends(db_helper.session_dependency)
+        session: AsyncSession = Depends(db_helper.session_getter)
 ):
     repo = CourseRepository(session)
     use_cases = CourseUseCases(repo)
@@ -21,7 +25,7 @@ async def get_courses(
 @router.post("/", response_model=CourseSchema, status_code=201)
 async def create_course(
         course_in: CourseCreateSchema,
-        session: AsyncSession = Depends(db_helper.session_dependency)
+        session: AsyncSession = Depends(db_helper.session_getter)
 ):
     repo = CourseRepository(session)
     # course_material_repo = CourseMaterialRepository(session)
@@ -33,7 +37,7 @@ async def create_course(
 @router.get("/{course_id}/materials", response_model=list[MaterialSchema])
 async def get_materials_by_course_id(
     course_id: int,
-    session: AsyncSession = Depends(db_helper.session_dependency)
+    session: AsyncSession = Depends(db_helper.session_getter)
 ):
     course_repo = CourseRepository(session)
     material_repo = MaterialRepository(session)
