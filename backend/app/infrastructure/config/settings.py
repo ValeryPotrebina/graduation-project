@@ -10,7 +10,7 @@ class DbSettings(BaseSettings):
     PORT: int
     NAME: str
 
-    model_config = SettingsConfigDict(env_file="./app/infrastructure/config/config.env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     def get_db_url(self) -> str:
         return f"postgresql+asyncpg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.NAME}"

@@ -1,7 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-# from app.interfaces.api.auth import router as auth_router
 from app.interfaces.routes import router
 from app.infrastructure.config.database import db_helper
 from contextlib import asynccontextmanager
@@ -18,7 +17,16 @@ logger = logging.getLogger(__name__)  # Получаем логгер для т�
 async def lifespan(app: FastAPI):
     yield
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    title="LearnFlow API",
+    description="API для управления курсами",
+    version="0.1.0",
+    docs_url="/docs",  # Swagger UI
+    redoc_url="/redoc",  # ReDoc
+    openapi_url="/openapi.json",  # JSON схема API
+    lifespan=lifespan
+)
+# app = FastAPI(lifespan=lifespan)
 app.include_router(
     router=router,
     prefix=settings.api.prefix
