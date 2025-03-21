@@ -7,6 +7,7 @@ class CourseBase(BaseModel):
     semester: int
 
 class CourseCreateSchema(CourseBase):
+    # TODO: убрать id из создания курсов
     id: int
     pass
 

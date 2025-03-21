@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from app.use_cases import CourseUseCases, MaterialUseCases
+from app.services import CoursesService, MaterialsService
 from app.infrastructure.persistence.repositories import CourseRepository, MaterialRepository
 from app.interfaces.schemas import CourseSchema, CourseCreateSchema, MaterialSchema, MaterialCreateSchema, MaterialUpdateSchema
 from app.infrastructure.config.database import db_helper
@@ -17,7 +17,7 @@ async def get_courses(
         session: AsyncSession = Depends(db_helper.session_getter)
 ):
     repo = CourseRepository(session)
-    use_cases = CourseUseCases(repo)
+    use_cases = CoursesService(repo)
     courses = await use_cases.get_courses()
     return [CourseSchema.model_validate(course) for course in courses]
 
@@ -29,7 +29,7 @@ async def create_course(
 ):
     repo = CourseRepository(session)
     # course_material_repo = CourseMaterialRepository(session)
-    use_cases = CourseUseCases(repo)
+    use_cases = CoursesService(repo)
     course = await use_cases.create_course(course_in.id, course_in.name, course_in.description, course_in.semester)
     return CourseSchema.model_validate(course)
 
@@ -42,7 +42,7 @@ async def get_materials_by_course_id(
     course_repo = CourseRepository(session)
     material_repo = MaterialRepository(session)
 
-    use_cases = MaterialUseCases(
+    use_cases = MaterialsService(
         material_repo=material_repo,
         course_repo=course_repo
     )

@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 
-# from app.interfaces.api.auth import router as auth_router
 from .course_routes import router as course_router
 from .auth_router import router as auth_router
 

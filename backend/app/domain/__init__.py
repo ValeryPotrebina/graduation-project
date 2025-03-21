@@ -1,10 +1,16 @@
-__all__ = ("Course", "ICourseRepository", "IMaterialRepository", "User", "Material")
+__all__ = (
+    "Course",
+    "ICourseRepository",
+    "Material",
+    "IMaterialRepository",
+    "User",
+    "IUserRepository",
+)
 
 from .courses.models import Course
-from .auth.models import User
+from .users.models import User
 from .materials.models import Material
 
 from .courses.repositories import ICourseRepository
-from .auth.repositories import IUserRepository
 from .materials.repositories import IMaterialRepository
-
+from .users.repositories import IUserRepository

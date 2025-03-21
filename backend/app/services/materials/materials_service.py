@@ -1,7 +1,7 @@
 from typing import List
 from app.domain import Material
 from app.domain import IMaterialRepository, ICourseRepository
-class MaterialUseCases:
+class MaterialsService:
     def __init__(self, 
                  material_repo: IMaterialRepository, 
                  course_repo: ICourseRepository
