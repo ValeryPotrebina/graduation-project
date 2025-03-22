@@ -10,15 +10,11 @@ class MaterialBase(BaseModel):
 
 
 class MaterialCreateSchema(MaterialBase):
-    pass
+    course_id: int
+
 
 class MaterialUpdateSchema(MaterialBase):
-    material_type: Optional[str] = None
-    number: Optional[int] = None
-    content: Optional[str] = None
-    url: Optional[str] = None
+    pass
 
-class MaterialSchema(MaterialBase):
-    id: int
-
+class MaterialReadSchema(MaterialBase):
     model_config = ConfigDict(from_attributes=True) 

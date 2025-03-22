@@ -1,6 +1,5 @@
 class Course:
-    def __init__(self, name: str, description: str, semester: int, id: int):
-            self.id = id  
+    def __init__(self, name: str, description: str, semester: int):
             self.name = name
             self.description = description
             self.semester = semester

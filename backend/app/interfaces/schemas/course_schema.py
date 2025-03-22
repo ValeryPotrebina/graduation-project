@@ -6,14 +6,11 @@ class CourseBase(BaseModel):
     description: Optional[str] = None
     semester: int
 
+class CourseReadSchema(CourseBase):
+    model_config = ConfigDict(from_attributes=True)
+
 class CourseCreateSchema(CourseBase):
-    # TODO: убрать id из создания курсов
-    id: int
     pass
 
 class CourseUpdateSchema(CourseBase):
     pass
-
-class CourseSchema(CourseBase):
-    id: int
-    model_config = ConfigDict(from_attributes=True) 

@@ -1,6 +1,5 @@
 class Material:
-        def __init__(self, id: int, course_id: int, material_type: str, number: int, content: str, url: str):
-            self.id = id
+        def __init__(self, course_id: int, material_type: str, number: int, content: str, url: str):
             self.course_id = course_id
             self.material_type = material_type
             self.number = number

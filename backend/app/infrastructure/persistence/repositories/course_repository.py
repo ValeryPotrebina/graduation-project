@@ -14,11 +14,10 @@ class CourseRepository(ICourseRepository):
         stmt = select(CourseModel).order_by(CourseModel.id)
         result: Result = await self.session.execute(stmt)
         courses = result.scalars().all()
-        return [Course(id=course.id, name=course.name, description=course.description, semester=course.semester) for course in courses]
+        return [Course(name=course.name, description=course.description, semester=course.semester) for course in courses]
 
     async def create_course(self, course_in: Course) -> Course:
         new_course = CourseModel(
-            id=course_in.id,
             name=course_in.name,
             description=course_in.description,
             semester=course_in.semester

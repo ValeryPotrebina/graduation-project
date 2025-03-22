@@ -9,7 +9,7 @@ class MaterialModel(CourseRelationMixin, Base):
     _user_id_unique = False
     _user_back_populates: str | None = "materials"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     material_type: Mapped[str] = mapped_column(String(50), nullable=False)
     number: Mapped[int] = mapped_column(Integer, nullable=False)
     content: Mapped[Optional[str]] = mapped_column(Text, nullable=True)

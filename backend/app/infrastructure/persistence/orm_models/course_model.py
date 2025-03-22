@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 class CourseModel(Base):
     __tablename__ = "courses"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=True)
     semester: Mapped[int] = mapped_column(Integer, nullable=False)
