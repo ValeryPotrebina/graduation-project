@@ -1,8 +1,10 @@
-class Course:
-    def __init__(self, name: str, description: str, semester: int):
-            self.name = name
-            self.description = description
-            self.semester = semester
+from dataclasses import dataclass
+from typing import Optional
 
-    def __repr__(self):
-          return f"Course(id={self.id}, name={self.name}, description={self.description}, semester={self.semester})"
+
+@dataclass
+class Course:
+    name: str
+    semester: int
+    id: Optional[int] = None
+    description: Optional[str] = None

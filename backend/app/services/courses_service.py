@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from app.domain import Course
 from app.domain import ICourseRepository
 '''Этот слой не зависит от того, как данные будут храниться (база данных, API и т.д.), 
@@ -10,9 +10,8 @@ class CoursesService:
     async def get_courses(self) -> List[Course]:
         return await self.course_repo.get_courses()
     
-    async def create_course(self, name: str, description: str, semester: int) -> Course:
+    async def create_course(self, name: str, description: Optional[str], semester: int) -> Course:
         new_course = Course(name=name, description=description, semester=semester)
-        await self.course_repo.create_course(new_course)
-        return new_course
+        return await self.course_repo.create_course(new_course)
 
     

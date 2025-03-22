@@ -11,6 +11,7 @@ class MaterialBase(BaseModel):
 
 class MaterialCreateSchema(MaterialBase):
     course_id: int
+    pass
 
 
 class MaterialUpdateSchema(MaterialBase):

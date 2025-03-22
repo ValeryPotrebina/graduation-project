@@ -6,7 +6,7 @@ class ICourseRepository(ABC):
         ...
 
     @abstractmethod
-    async def create_course(self, course: Course) -> None:
+    async def create_course(self, course: Course) -> Course:
         ...
 
     # @abstractmethod

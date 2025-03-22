@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from app.services import CoursesService, MaterialsService
 from app.infrastructure.persistence.repositories import CourseRepository, MaterialRepository
-from app.interfaces.schemas import CourseReadSchema, CourseCreateSchema, MaterialReadSchema, MaterialCreateSchema, MaterialUpdateSchema
+from app.interfaces.schemas import MaterialReadSchema, MaterialCreateSchema, CourseGetRequest, CoursePostRequest, CoursePostResponse, CourseGetResponse
 from app.infrastructure.config.database import db_helper
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.infrastructure.config.settings import settings
@@ -12,28 +12,28 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=list[CourseReadSchema])
+@router.get("/", response_model=CourseGetResponse)
 async def get_courses(
         session: AsyncSession = Depends(db_helper.session_getter)
 ):
     repo = CourseRepository(session)
     use_cases = CoursesService(repo)
     courses = await use_cases.get_courses()
-    return [CourseReadSchema.model_validate(course) for course in courses]
+    return CourseGetResponse(
+        data=courses
+        )
 
 
-@router.post("/", response_model=CourseCreateSchema, status_code=201)
+@router.post("/", response_model=CoursePostResponse, status_code=201)
 async def create_course(
-        course_in: CourseCreateSchema,
+        request: CoursePostRequest,
         session: AsyncSession = Depends(db_helper.session_getter)
 ):
     repo = CourseRepository(session)
     use_cases = CoursesService(repo)
-    course = await use_cases.create_course(course_in.name, course_in.description, course_in.semester)
-    return CourseCreateSchema(
-        name=course.name,
-        description=course.description,
-        semester=course.semester
+    course = await use_cases.create_course(request.name, request.description, request.semester)
+    return CoursePostResponse(
+        data=course
     )
 
 

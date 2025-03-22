@@ -1,9 +1,10 @@
 
 __all__ = (
     
-    "CourseReadSchema",
-    "CourseCreateSchema",
-    "CourseUpdateSchema",
+    "CourseGetRequest",
+    "CoursePostRequest",
+    "CoursePostResponse",
+    "CourseGetResponse",
 
     "MaterialReadSchema",
     "MaterialCreateSchema",
@@ -15,6 +16,6 @@ __all__ = (
     "UserUpdateSchema"
 )
 
-from .course_schema import CourseCreateSchema, CourseUpdateSchema, CourseReadSchema
+from .course_schema import CourseGetRequest, CoursePostRequest, CoursePostResponse, CourseGetResponse
 from .material_schema import MaterialReadSchema, MaterialCreateSchema, MaterialUpdateSchema
 from .user_schema import UserBase, UserReadSchema, UserCreateSchema, UserUpdateSchema
