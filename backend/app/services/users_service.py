@@ -114,7 +114,6 @@ class UsersService:
         
         expiration_time = datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(hours=24)
 
-        # Сохранение сессии в базе данных
         await self.session_repo.create_session(
             session_id=session_id,
             user_id=user_id,
