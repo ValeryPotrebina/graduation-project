@@ -5,6 +5,7 @@ __all__ = (
     "CourseRelationMixin",
     "UserModel",
     "SessionModel",
+    "UserFeaturedCourseModel",
 )
 
 from .base import Base
@@ -14,3 +15,4 @@ from .user_model import UserModel
 from .mixin import CourseRelationMixin
 from .user_model import UserModel
 from .session_model import SessionModel
+from .user_featured_course_model import UserFeaturedCourseModel

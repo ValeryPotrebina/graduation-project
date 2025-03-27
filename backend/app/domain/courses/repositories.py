@@ -9,6 +9,6 @@ class ICourseRepository(ABC):
     async def create_course(self, course: Course) -> Course:
         ...
 
-    # @abstractmethod
-    # async def get_course_by_id(self, course_id: int) -> Course:
-    #     ...
+    @abstractmethod
+    async def get_course_by_id(self, course_id: int) -> Course:
+        ...

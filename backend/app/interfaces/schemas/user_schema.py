@@ -1,34 +1,49 @@
 from fastapi_users import schemas
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel, ConfigDict
 from pydantic import BaseModel, EmailStr
 
-class UserBase(BaseModel):
+from .course_schema import Course
+
+class User(BaseModel):
     username: str
-    email: EmailStr
-    is_teacher: bool = False  # Пример флага, который указывает на роль пользователя
-
-    class Config:
-        # Указываем, что для этой схемы необходимо работать с объектами, а не словарями
-        from_attributes = True
-
-class UserReadSchema(UserBase):
-    id: int  # ID пользователя, так как он генерируется в БД
-
-    class Config:
-        from_attributes = True
+    email: str
+    
+    model_config = ConfigDict(from_attributes=True)
 
 
-class UserCreateSchema(UserBase):
-    password: str  # Пароль для создания нового пользователя
+class AuthRegisterRequest(BaseModel):
+    username: str
+    email: str
+    password: str
 
-    class Config:
-        # Указываем, что поля для чтения должны быть валидированы из объекта, а не из словаря
-        from_attributes = True
+class AuthRegisterResponce(BaseModel):
+    data: User
 
 
-class UserUpdateSchema(UserBase):
-    password: Optional[str] = None  # Возможно обновить пароль, но оно не обязательно
+class AuthLoginRequest(BaseModel):
+    username: str
+    password: str
 
-    class Config:
-        from_attributes = True
+class AuthLoginResponce(BaseModel):
+    data: User
+
+class AuthCheckRequest(BaseModel):
+    pass
+
+class AuthCheckResponce(BaseModel):
+    data: User
+
+
+class AuthCheckRequest(BaseModel):
+    pass
+
+class AuthCheckResponce(BaseModel):
+    data: User
+
+
+class AuthLogoutRequest(BaseModel):
+    pass
+
+class AuthLogoutResponce(BaseModel):
+    pass

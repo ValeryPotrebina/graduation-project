@@ -34,3 +34,13 @@ class CourseRepository(ICourseRepository):
             semester=new_course.semester
         )
 
+    async def get_course_by_id(self, course_id: int) -> Course:
+        stmt = select(CourseModel).where(CourseModel.id == course_id)
+        result: Result = await self.session.execute(stmt)
+        course = result.scalar_one_or_none()
+        return Course(
+            id=course.id, 
+            name=course.name, 
+            description=course.description, 
+            semester=course.semester
+            )

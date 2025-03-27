@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends
+from app.interfaces.routes.utils import get_courses_service, get_materials_service
 from app.services import CoursesService, MaterialsService
-from app.infrastructure.persistence.repositories import CourseRepository, MaterialRepository
 from app.interfaces.schemas import MaterialReadSchema, MaterialCreateSchema, CourseGetRequest, CoursePostRequest, CoursePostResponse, CourseGetResponse
-from app.infrastructure.config.database import db_helper
-from sqlalchemy.ext.asyncio import AsyncSession
 from app.infrastructure.config.settings import settings
 
 router = APIRouter(
@@ -14,11 +12,9 @@ router = APIRouter(
 
 @router.get("/", response_model=CourseGetResponse)
 async def get_courses(
-        session: AsyncSession = Depends(db_helper.session_getter)
+        courses_service: CoursesService = Depends(get_courses_service),
 ):
-    repo = CourseRepository(session)
-    use_cases = CoursesService(repo)
-    courses = await use_cases.get_courses()
+    courses = await courses_service.get_courses()
     return CourseGetResponse(
         data=courses
         )
@@ -27,11 +23,9 @@ async def get_courses(
 @router.post("/", response_model=CoursePostResponse, status_code=201)
 async def create_course(
         request: CoursePostRequest,
-        session: AsyncSession = Depends(db_helper.session_getter)
+        courses_service: CoursesService = Depends(get_courses_service),
 ):
-    repo = CourseRepository(session)
-    use_cases = CoursesService(repo)
-    course = await use_cases.create_course(request.name, request.description, request.semester)
+    course = await courses_service.create_course(request.name, request.description, request.semester)
     return CoursePostResponse(
         data=course
     )
@@ -40,16 +34,10 @@ async def create_course(
 @router.get("/{course_id}/materials", response_model=list[MaterialReadSchema])
 async def get_materials_by_course_id(
     course_id: int,
-    session: AsyncSession = Depends(db_helper.session_getter)
-):
-    course_repo = CourseRepository(session)
-    material_repo = MaterialRepository(session)
+    materials_service: MaterialsService = Depends(get_materials_service),
+):  
 
-    use_cases = MaterialsService(
-        material_repo=material_repo,
-        course_repo=course_repo
-    )
-    materials = await use_cases.get_materials_by_course_id(course_id)
+    materials = await materials_service.get_materials_by_course_id(course_id)
 
     return [MaterialReadSchema.model_validate(m) for m in materials]
 
@@ -58,17 +46,9 @@ async def get_materials_by_course_id(
 async def create_material(
     course_id: int,
     material_in: MaterialCreateSchema,
-    session: AsyncSession = Depends(db_helper.session_getter)
+    materials_service: MaterialsService = Depends(get_materials_service),
 ):
-    course_repo = CourseRepository(session)
-    material_repo = MaterialRepository(session)
-
-    use_cases = MaterialsService(
-        material_repo=material_repo,
-        course_repo=course_repo
-    )
-
-    material = await use_cases.create_material(
+    material = await materials_service.create_material(
         course_id=course_id,
         material_type=material_in.material_type,
         number=material_in.number,

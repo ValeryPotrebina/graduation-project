@@ -10,8 +10,7 @@ if TYPE_CHECKING:
 class SessionModel(Base):
     __tablename__ = "sessions"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    session_id: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    session_id: Mapped[str] = mapped_column(String(255), primary_key=True, nullable=False, unique=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
     expired_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     user: Mapped["UserModel"] = relationship(back_populates="sessions")

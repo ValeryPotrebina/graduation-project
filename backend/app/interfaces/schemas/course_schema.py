@@ -24,3 +24,6 @@ class CoursePostRequest(BaseModel):
 class CoursePostResponse(BaseModel):
     data: Course
 
+
+class TestRequest(BaseModel):
+    id: int

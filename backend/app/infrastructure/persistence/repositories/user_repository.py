@@ -2,6 +2,7 @@ from typing import Optional
 from sqlalchemy import select
 from app.domain import IUserRepository
 from app.domain import User
+from app.domain.courses.models import Course
 from app.infrastructure.persistence.orm_models import UserModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.engine import Result
@@ -20,7 +21,13 @@ class UserRepository(IUserRepository):
         )
         self.session.add(new_user)
         await self.session.commit()
-        return new_user
+        return User(
+            id=new_user.id,
+            username=new_user.username,
+            email=new_user.email,
+            hashed_password=new_user.hashed_password,
+            is_teacher=new_user.is_teacher,
+        )
 
     async def get_user_by_id(self, id: int) -> Optional[User]:
         stmt = select(UserModel).where(UserModel.id == id)

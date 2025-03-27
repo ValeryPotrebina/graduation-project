@@ -6,12 +6,17 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .material_model import MaterialModel
+    from .user_featured_course_model import UserFeaturedCourseModel
+
+
 class CourseModel(Base):
     __tablename__ = "courses"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(
+        Integer, primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str] = mapped_column(Text, nullable=True)
     semester: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    materials: Mapped[list["MaterialModel"]] = relationship(back_populates="course", cascade="all, delete-orphan")
+    materials: Mapped[list["MaterialModel"]] = relationship(
+        back_populates="course", cascade="all, delete-orphan")
