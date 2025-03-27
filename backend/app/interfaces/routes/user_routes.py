@@ -1,12 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.domain import User
-from app.infrastructure.config.database import db_helper
-from sqlalchemy.ext.asyncio import AsyncSession
 from app.infrastructure.config.settings import settings
-from app.infrastructure.persistence.repositories.course_repository import CourseRepository
-from app.infrastructure.persistence.repositories.featured_course_repository import FeaturedCourseRepository
 from app.interfaces.schemas import CourseGetResponse
-from app.interfaces.schemas.course_schema import TestRequest
 from app.services.courses_service import CoursesService
 from app.services.user_featured_courses_service import UserFeaturedCoursesService 
 from .utils import get_courses_service, get_current_user, get_user_featured_courses_service
@@ -16,7 +11,7 @@ router = APIRouter(
     tags=["Featured Courses"],
 )
 
-@router.get("/featured_courses", response_model=CourseGetResponse)
+@router.get(settings.api.featured_courses, response_model=CourseGetResponse)
 async def get_featured_courses(
         current_user: User = Depends(get_current_user),
         user_featured_courses_service: UserFeaturedCoursesService = Depends(get_user_featured_courses_service),

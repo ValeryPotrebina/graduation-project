@@ -20,10 +20,8 @@ __all__ = (
     "AuthRegisterResponce",
 
     "User",
-    "TestRequest",
 )
 
 from .course_schema import CourseGetRequest, CoursePostRequest, CoursePostResponse, CourseGetResponse
 from .material_schema import MaterialReadSchema, MaterialCreateSchema, MaterialUpdateSchema
 from .user_schema import User, AuthCheckRequest, AuthCheckResponce, AuthLoginRequest, AuthLoginResponce, AuthLogoutRequest, AuthLogoutResponce, AuthRegisterRequest, AuthRegisterResponce 
-from .course_schema import TestRequest

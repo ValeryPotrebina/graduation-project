@@ -16,9 +16,9 @@ class MaterialsService:
 
     async def get_materials_by_course_id(self, course_id: int) -> List[Material]:
 
-        # course = await self.course_repo.get_course_by_id(course_id)
-        # if not course:
-        #     raise HTTPException("Курс не найден")
+        course = await self.course_repo.get_course_by_id(course_id)
+        if not course:
+            raise HTTPException("Course is not found")
 
         return await self.material_repo.get_materials_by_course_id(course_id)
 
@@ -31,9 +31,9 @@ class MaterialsService:
         url: str
     ) -> Material:
         
-        # course = await self.course_repo.get_course_by_id(course_id)
-        # if not course:
-        #     raise HTTPException("Курс не найден")
+        course = await self.course_repo.get_course_by_id(course_id)
+        if not course:
+            raise HTTPException("Course is not found")
 
         new_material = Material(
             course_id=course_id,

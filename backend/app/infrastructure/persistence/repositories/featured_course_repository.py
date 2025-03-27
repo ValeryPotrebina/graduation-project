@@ -1,4 +1,3 @@
-# app/infrastructure/persistence/repositories/featured_course_repository.py
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.infrastructure.persistence.orm_models.user_featured_course_model import UserFeaturedCourseModel
@@ -11,7 +10,6 @@ class FeaturedCourseRepository:
         self.session = session
 
     async def add_to_favorites(self, user_id: int, course_id: int) -> None:
-        # Проверяем, есть ли уже этот курс в избранном
         stmt = select(UserFeaturedCourseModel).where(
             UserFeaturedCourseModel.user_id == user_id,
             UserFeaturedCourseModel.course_id == course_id
@@ -20,13 +18,11 @@ class FeaturedCourseRepository:
         if result.scalar_one_or_none():
             raise Exception("Course already in favorites")
 
-        # Добавляем курс в избранное
         favorite_course = UserFeaturedCourseModel(user_id=user_id, course_id=course_id)
         self.session.add(favorite_course)
         await self.session.commit()
 
     async def remove_from_favorites(self, user_id: int, course_id: int) -> None:
-        # Удаляем курс из избранного
         
         stmt = select(UserFeaturedCourseModel).where(
             UserFeaturedCourseModel.user_id == user_id,
@@ -41,7 +37,6 @@ class FeaturedCourseRepository:
         await self.session.commit()
 
     async def get_favorites_by_user(self, user_id: int) -> list[CourseModel]:
-        # Получаем все избранные курсы для пользователя
         stmt = select(CourseModel).join(
             UserFeaturedCourseModel, 
             UserFeaturedCourseModel.course_id == CourseModel.id,

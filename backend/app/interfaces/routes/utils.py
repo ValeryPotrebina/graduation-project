@@ -9,7 +9,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 
 #! Зависимость для UsersService
-
 async def get_user_repo(session: AsyncSession = Depends(db_helper.session_getter)) -> UserRepository:
     return UserRepository(session=session)
 
@@ -45,8 +44,7 @@ async def get_courses_service(
 ) -> CoursesService:
     return CoursesService(course_repo)
 
-# ! Зависимость для MaterialsService
-
+#! Зависимость для MaterialsService
 async def get_material_repo(session: AsyncSession = Depends(db_helper.session_getter)) -> MaterialRepository:
     return MaterialRepository(session=session)
 
@@ -56,7 +54,7 @@ async def get_materials_service(
 ) -> MaterialsService:
     return MaterialsService(material_repo, course_repo)
 
-# ! Прочие зависимости для аутенфикации
+#! Прочие зависимости для аутенфикации
 class Cookies(BaseModel):
     session_id: str | None = None
 

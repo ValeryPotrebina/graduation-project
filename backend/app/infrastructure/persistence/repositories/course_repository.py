@@ -4,8 +4,6 @@ from app.domain import Course
 from app.infrastructure.persistence.orm_models import CourseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.engine import Result
-# CRUD
-
 class CourseRepository(ICourseRepository):
     def __init__(self, session: AsyncSession):
         self.session = session

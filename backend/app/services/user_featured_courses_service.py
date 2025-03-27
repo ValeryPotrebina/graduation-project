@@ -3,7 +3,6 @@ from app.domain import Course
 from app.domain import ICourseRepository
 from app.infrastructure.persistence.repositories import FeaturedCourseRepository
 
-
 # TODO ДОБАВИТЬ АБСТРАКТНЫЙ РЕПОЗИТОРИЙ
 class UserFeaturedCoursesService:
     def __init__(self, user_featured_courses_repo: FeaturedCourseRepository):

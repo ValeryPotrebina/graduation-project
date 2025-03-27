@@ -1,7 +1,6 @@
 import datetime
 from typing import Optional
 from sqlalchemy import select
-from app.domain import Material
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.engine import Result
 from app.infrastructure.persistence.orm_models import SessionModel
