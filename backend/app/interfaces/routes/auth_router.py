@@ -10,7 +10,8 @@ router = APIRouter(
     tags=["Auth"],
 )
 
-@router.post(settings.api.register, response_model=AuthRegisterResponce)
+
+@router.post(settings.api.regist, response_model=AuthRegisterResponce)
 async def register_user(
     request: AuthRegisterRequest,
     response: Response,
@@ -42,9 +43,9 @@ async def login_user(
             request.password
         )
         response.set_cookie(
-            key="session_id", 
+            key="session_id",
             value=session_id
-            )
+        )
         response.status_code = 200
         return AuthLoginResponce(
             data=user
@@ -58,10 +59,9 @@ async def check_user_session(
     user: User = Depends(verify_session)
 ):
     return {
-        "message": "Authorized", 
+        "message": "Authorized",
         "user": user,
-        }
-
+    }
 
 
 @router.post(settings.api.logout)

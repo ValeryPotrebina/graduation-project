@@ -5,6 +5,7 @@ __all__ = (
     "IMaterialRepository",
     "User",
     "IUserRepository",
+    "Session"
 )
 
 from .courses.models import Course
@@ -14,3 +15,4 @@ from .materials.models import Material
 from .courses.repositories import ICourseRepository
 from .materials.repositories import IMaterialRepository
 from .users.repositories import IUserRepository
+from .users.models import Session

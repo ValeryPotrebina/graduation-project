@@ -1,8 +1,7 @@
 from datetime import datetime, timedelta, timezone
-from typing import List
-
 from fastapi import HTTPException
 from app.domain import IUserRepository
+from app.domain import Session
 from app.infrastructure.persistence.repositories import SessionRepository
 from app.domain import User
 from .utils import generate_session_id, hash_password, verify_password
@@ -10,6 +9,7 @@ from .utils import generate_session_id, hash_password, verify_password
 import logging
 
 logger = logging.getLogger(__name__)
+
 
 class UsersService:
     def __init__(
@@ -34,12 +34,14 @@ class UsersService:
 
         hashed_password = hash_password(password)
 
-        user = await self.user_repo.create_user(
+        new_user = User(
             username=username,
             hashed_password=hashed_password,
             email=email,
-            is_teacher=is_teacher
+            is_teacher=is_teacher,
         )
+
+        user = await self.user_repo.create_user(new_user)
 
         session_id = await self.create_session(
             user_id=user.id
@@ -71,8 +73,6 @@ class UsersService:
         except Exception as e:
             logger.error(f"Error during login: {e}")
             raise HTTPException(status_code=400, detail="Invalid credentials")
-        
-
 
     async def check_authorization(
             self,
@@ -102,13 +102,15 @@ class UsersService:
         await self.session_repo.delete_session(session_id)
 
     async def create_session(self, user_id: int) -> str:
-        session_id = generate_session_id() 
-        
-        expiration_time = datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(hours=24)
+        session_id = generate_session_id()
 
-        await self.session_repo.create_session(
+        expiration_time = datetime.now(timezone.utc).replace(
+            tzinfo=None) + timedelta(hours=24)
+
+        session = Session(
             session_id=session_id,
             user_id=user_id,
-            expiration_time=expiration_time
+            expired_at=expiration_time
         )
-        return session_id
+        session: Session = await self.session_repo.create_session(session)
+        return session.session_id

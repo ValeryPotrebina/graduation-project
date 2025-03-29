@@ -10,11 +10,11 @@ class DbSettings(BaseSettings):
     PORT: int
     NAME: str
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf-8")
 
     def get_db_url(self) -> str:
         return f"postgresql+asyncpg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.NAME}"
-
 
 
 class ApiPrefix(BaseModel):
@@ -25,16 +25,15 @@ class ApiPrefix(BaseModel):
     courses: str = "/courses"
     materials: str = "/materials"
     featured_courses: str = "/featured_courses"
-    register: str = "/register"
+    regist: str = "/register"
     login: str = "/login"
     logout: str = "/logout"
     check_authorization: str = "/check_authorization"
-    
 
-    
+
 class Settings(BaseSettings):
-    db: DbSettings = DbSettings() 
+    db: DbSettings = DbSettings()
     api: ApiPrefix = ApiPrefix()
 
-    
+
 settings = Settings()

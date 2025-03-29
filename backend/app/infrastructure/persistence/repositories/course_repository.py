@@ -12,33 +12,17 @@ class CourseRepository(ICourseRepository):
         stmt = select(CourseModel).order_by(CourseModel.id)
         result: Result = await self.session.execute(stmt)
         courses = result.scalars().all()
-        return [Course(id=course.id, name=course.name, description=course.description, semester=course.semester) for course in courses]
+        return [Course.model_validate(course) for course in courses]
 
     async def create_course(self, course: Course) -> Course:
-        
-        new_course = CourseModel(
-            name=course.name,
-            description=course.description,
-            semester=course.semester
-        )
-
+        new_course = CourseModel(**course.model_dump())
         self.session.add(new_course)
         await self.session.commit()
         
-        return Course(
-            id=new_course.id,
-            name=new_course.name,
-            description=new_course.description,
-            semester=new_course.semester
-        )
+        return Course.model_validate(new_course)
 
     async def get_course_by_id(self, course_id: int) -> Course:
         stmt = select(CourseModel).where(CourseModel.id == course_id)
         result: Result = await self.session.execute(stmt)
         course = result.scalar_one_or_none()
-        return Course(
-            id=course.id, 
-            name=course.name, 
-            description=course.description, 
-            semester=course.semester
-            )
+        return Course.model_validate(course)

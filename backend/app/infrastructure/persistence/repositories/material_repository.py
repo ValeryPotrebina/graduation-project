@@ -15,16 +15,10 @@ class MaterialRepository(IMaterialRepository):
             MaterialModel.course_id == course_id).order_by(MaterialModel.number)
         result: Result = await self.session.execute(stmt)
         materials = result.scalars().all()
-        return [Material(course_id=material.course_id, material_type=material.material_type, number=material.number, content=material.content, url=material.url) for material in materials]
+        return [Material.model_validate(material) for material in materials]
 
     async def create_material(self, material: Material) -> Material:
-        new_material = MaterialModel(
-            course_id=material.course_id,
-            material_type=material.material_type,
-            number=material.number,
-            content=material.content,
-            url=material.url
-        )
+        new_material = MaterialModel(**material.model_dump())
         self.session.add(new_material)
         await self.session.commit()
         return material
