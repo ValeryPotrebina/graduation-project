@@ -1,13 +1,16 @@
-import { Layout, Select } from "antd";
-import { useState, useEffect } from "react";
-import { fetchCourses } from "../../api/coursesApi";
-import CourseInfoModal from "../CourseInfoModal";
+import React, { useState, useEffect } from "react";
+import { Button, Space, Layout, Select } from "antd";
+import { useNavigate } from "react-router-dom";
+
+import { getCourses } from "../../services/coursesApi";
+
+//? TODO ВЫНЕСТИ ПОЛУЧЕНИЕ КУРСОВ В КОНТЕКСТ
 
 const headerStyle = {
   width: "100%",
   textAlign: "center",
   color: "#fff",
-  height: 60,
+  height: 65,
   padding: "1rem",
   display: "flex",
   alignItems: "center",
@@ -15,51 +18,71 @@ const headerStyle = {
 };
 
 export default function AppHeader() {
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // Загружаем все курсы
   useEffect(() => {
     async function loadCourses() {
-      const data = await fetchCourses();
-      setCourses(data);
+      setLoading(true);
+      try {
+        const response = await getCourses(); // Получаем данные от API
+        const data = response?.data; // Извлекаем курсы из объекта `data`
+        
+        // Проверяем, что полученные данные - это массив
+        if (Array.isArray(data)) {
+          setCourses(data); // Устанавливаем курсы в состояние
+        } else {
+          console.error("Полученные данные не содержат массив", data);
+          setCourses([]); // Если данных нет, ставим пустой массив
+        }
+      } catch (error) {
+        console.error("Ошибка при получении курсов:", error);
+        setCourses([]); // В случае ошибки тоже ставим пустой массив
+      } finally {
+        setLoading(false);
+      }
     }
     loadCourses();
   }, []);
 
-  // При выборе курса — сохраняем в state и открываем модалку
-  function handleSelect(courseId) {
-    const course = courses.find((c) => c.id === courseId);
-    setSelectedCourse(course);
-    setIsModalOpen(true);
-  }
-
-
-  const coursesOptions = courses.map((c) => ({
-    value: c.id,
-    label: c.name,
+  const coursesOptions = courses.map((course) => ({
+    value: course.id,
+    label: course.name,
   }));
 
+  const handleRegister = () => {
+    navigate("/register"); // Переход на страницу регистрации
+  };
+
+  const handleLogin = () => {
+    navigate("/login"); // Переход на страницу входа
+  };
+
   return (
-    <Layout.Header style={headerStyle}>
-      <Select
-        showSearch
-        style={{ width: 300 }}
-        placeholder="Выберите курс"
-        optionFilterProp="label"
-        filterSort={(optionA, optionB) =>
-          (optionA?.label ?? "").toLowerCase()
-          .localeCompare((optionB?.label ?? "").toLowerCase())
-        }
-        options={coursesOptions}
-        onSelect={handleSelect}
-      />
-      <CourseInfoModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        course={selectedCourse}
-      />
-    </Layout.Header>
+    <>
+      <Layout.Header style={headerStyle}>
+        <Select
+          showSearch
+          style={{ width: 300 }}
+          placeholder="Choose course"
+          optionFilterProp="label"
+          filterSort={(optionA, optionB) =>
+            (optionA?.label ?? "")
+              .toLowerCase()
+              .localeCompare((optionB?.label ?? "").toLowerCase())
+          }
+          loading={loading}
+          options={coursesOptions}
+          // onSelect={handleSelect}
+        />
+        <nav>
+          <Space>
+            <Button onClick={handleRegister}>Регистрация</Button>
+            <Button onClick={handleLogin}>Войти</Button>
+          </Space>
+        </nav>
+      </Layout.Header>
+    </>
   );
 }

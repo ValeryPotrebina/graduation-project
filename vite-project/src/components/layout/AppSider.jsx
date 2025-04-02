@@ -1,6 +1,6 @@
 import React from "react";
-import {Card, Layout} from "antd";
-import {useSubjects} from "../../context/courses-context";
+import { Layout, Menu } from "antd";
+import { Link } from "react-router-dom";
 
 const siderStyle = {
   padding: '1rem',
@@ -8,31 +8,20 @@ const siderStyle = {
 };
 
 export default function AppSider() {
-  const {coursesData, loading, error, setSelectedSubject} = useSubjects();
-  
-
-
-  // if (error) {
-  //   return <div>Ошибка: {error.message}</div>; // В случае ошибки
-  // }
-
   return (
-    <Layout.Sider width="25%" style={siderStyle}>
-      {loading && <div>Загрузка...</div>}
-      {coursesData && coursesData.map((subject) => (
-        <Card key={subject.id} style={{ 
-          marginBottom: "1rem", 
-          color: "#fff",
-          backgroundColor: "#1a73e8",
-          border: "1px solid #fff",
-          cursor: "pointer", 
-          }}
-          onClick={() => setSelectedSubject(subject)}>
-          <h3>{subject.name}</h3>
-          <p>Количество часов: {subject.amount_of_hours}</p>
-          <p>Кафедра: {subject.department}</p>
-        </Card>
-      ))}
+    <Layout.Sider style={siderStyle} width="25%">
+      <Menu
+        mode="inline"
+        defaultSelectedKeys={["1"]}
+        style={{ height: "100%", borderRight: 0 }}
+      >
+        <Menu.Item key="1">
+          <Link to="/courses">Курсы</Link>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <Link to="/materials">Материалы</Link>
+        </Menu.Item>
+      </Menu>
     </Layout.Sider>
   );
 }
