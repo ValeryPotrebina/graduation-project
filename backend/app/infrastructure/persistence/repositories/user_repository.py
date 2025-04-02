@@ -1,10 +1,11 @@
 from typing import Optional
 from sqlalchemy import select
-from app.domain import IUserRepository
-from app.domain import User
+from sqlalchemy.orm import selectinload
+from app.domain import IUserRepository, Course, User
 from app.infrastructure.persistence.orm_models import UserModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.engine import Result
+from app.infrastructure.persistence.orm_models import CourseModel
 
 
 class UserRepository(IUserRepository):
@@ -40,3 +41,57 @@ class UserRepository(IUserRepository):
         if user is None:
             return None
         return User.model_validate(user)
+
+    async def get_featured_courses(self, user_id: int) -> list[Course]:
+        stmt = select(UserModel).options(selectinload(
+            UserModel.featured_courses)).where(UserModel.id == user_id)
+        result: Result = await self.session.execute(stmt)
+        user = result.scalar_one_or_none()
+
+        if user is None:
+            return []
+
+        user = User.model_validate(user)
+        return user.featured_courses
+
+    async def add_featured_course(self, user_id: int, course_id: int) -> None:
+        stmt = select(UserModel).options(selectinload(
+            UserModel.featured_courses)).where(UserModel.id == user_id)
+        result: Result = await self.session.execute(stmt)
+        user: UserModel = result.scalar_one_or_none()
+
+        if user is None:
+            print("User not found")
+            return None
+
+        stmt = select(CourseModel).where(CourseModel.id == course_id)
+        result: Result = await self.session.execute(stmt)
+        course: CourseModel = result.scalar_one_or_none()
+
+        if course is None:
+            print("Course not found")
+            return None
+
+        user.featured_courses.append(course)
+        await self.session.commit()
+
+    async def remove_featured_course(self, user_id: int, course_id: int) -> None:
+        stmt = select(UserModel).options(selectinload(
+            UserModel.featured_courses)).where(UserModel.id == user_id)
+        result: Result = await self.session.execute(stmt)
+        user: UserModel = result.scalar_one_or_none()
+
+        if user is None:
+            print("User not found")
+            return None
+
+        stmt = select(CourseModel).where(CourseModel.id == course_id)
+        result: Result = await self.session.execute(stmt)
+        course: CourseModel = result.scalar_one_or_none()
+
+        if course is None:
+            print("Course not found")
+            return None
+
+        user.featured_courses.remove(course)
+        await self.session.commit()

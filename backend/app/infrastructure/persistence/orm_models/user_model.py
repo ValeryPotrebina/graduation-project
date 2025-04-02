@@ -1,8 +1,6 @@
 from sqlalchemy import Integer, String
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 from .base import Base
 
 if TYPE_CHECKING:
@@ -25,15 +23,17 @@ class UserModel(Base):
 
     featured_courses: Mapped[list["CourseModel"]] = relationship(
         secondary="user_featured_courses",
+        back_populates="featured_by",
+        lazy="noload"
     )
 
     featured_courses_association: Mapped[list["UserFeaturedCourseModel"]] = relationship(
         back_populates="user",
-        cascade="all, delete-orphan"
+        cascade="all, delete-orphan",
+        lazy="noload"
     )
 
     sessions: Mapped[list["SessionModel"]] = relationship(
-        back_populates="user", 
-        cascade="all, delete-orphan")
-
-# add foreign key
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )

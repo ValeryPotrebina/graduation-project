@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
+
+from app.domain import Course
 from .models import User
 
 
@@ -20,4 +22,16 @@ class IUserRepository(ABC):
 
     @abstractmethod
     async def get_user_by_email(self, email: str) -> Optional[User]:
+        pass
+
+    @abstractmethod
+    async def get_featured_courses(self, user_id: int) -> list[Course]:
+        pass
+
+    @abstractmethod
+    async def add_featured_course(self, user_id: int, course_id: int) -> None:
+        pass
+
+    @abstractmethod
+    async def remove_featured_course(self, user_id: int, course_id: int) -> None:
         pass

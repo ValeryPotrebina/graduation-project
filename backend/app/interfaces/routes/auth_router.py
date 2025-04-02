@@ -51,6 +51,7 @@ async def login_user(
             data=user
         )
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
 

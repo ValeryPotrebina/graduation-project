@@ -6,8 +6,8 @@ from contextlib import asynccontextmanager
 from app.infrastructure.config.settings import settings
 import logging
 
-logging.basicConfig(level=logging.INFO) 
-logger = logging.getLogger(__name__) 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
@@ -18,9 +18,9 @@ app = FastAPI(
     title="LearnFlow API",
     description="API для управления курсами",
     version="0.1.0",
-    docs_url="/docs",  
-    redoc_url="/redoc", 
-    openapi_url="/openapi.json",  
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
     lifespan=lifespan
 )
 app.include_router(
@@ -31,7 +31,8 @@ app.include_router(
 # Разрешаем запросы с фронтенда (CORS)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Можно заменить на ["http://localhost:5173"]
+    # Можно заменить на ["http://localhost:5173"]
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

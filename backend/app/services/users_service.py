@@ -114,3 +114,15 @@ class UsersService:
         )
         session: Session = await self.session_repo.create_session(session)
         return session.session_id
+
+
+# ---------------------------------------------------------
+
+    async def get_featured_courses(self, user_id: int) -> list[User]:
+        return await self.user_repo.get_featured_courses(user_id=user_id)
+
+    async def add_featured_course(self, user_id: int, course_id: int) -> None:
+        return await self.user_repo.add_featured_course(user_id=user_id, course_id=course_id)
+
+    async def remove_featured_course(self, user_id: int, course_id: int) -> None:
+        return await self.user_repo.remove_featured_course(user_id=user_id, course_id=course_id)

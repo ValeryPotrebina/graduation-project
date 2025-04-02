@@ -2,69 +2,62 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.domain import User
 from app.infrastructure.config.settings import settings
 from app.interfaces.schemas import CourseGetResponse
-from app.services.courses_service import CoursesService
-from app.services.user_featured_courses_service import UserFeaturedCoursesService 
-from .utils import get_courses_service, get_current_user, get_user_featured_courses_service
+from app.services.users_service import UsersService
+from .utils import get_current_user, get_user_service
 
 router = APIRouter(
     prefix=settings.api.users,
     tags=["Featured Courses"],
 )
 
+
 @router.get(settings.api.featured_courses, response_model=CourseGetResponse)
 async def get_featured_courses(
         current_user: User = Depends(get_current_user),
-        user_featured_courses_service: UserFeaturedCoursesService = Depends(get_user_featured_courses_service),
+        user_service: UsersService = Depends(get_user_service),
 ):
     try:
-        courses = await user_featured_courses_service.get_favorites_by_user(current_user.id)
+        courses = await user_service.get_featured_courses(user_id=current_user.id)
         return CourseGetResponse(data=courses)
     except Exception as e:
         raise HTTPException(
-            status_code=500, 
+            status_code=500,
             detail="Error retrieving featured courses"
-            )
-    
+        )
+
 
 # TODO НЕ ПРИКОЛЬНО, ЧТО ДОБАВЛЯЮ КУРСЫ ПО ID ??
 @router.post("/featured_courses/{course_id}")
 async def add_featured_course(
     course_id: int,
     current_user: User = Depends(get_current_user),
-    user_featured_courses_service: UserFeaturedCoursesService = Depends(get_user_featured_courses_service),
-    courses_service: CoursesService = Depends(get_courses_service),
+    user_service: UsersService = Depends(get_user_service),
 ):
-    course = await courses_service.get_course_by_id(course_id)
-
-    if not course:
-        raise HTTPException(
-            status_code=404, 
-            detail="Course not found"
-            )
     try:
-        await user_featured_courses_service.add_to_favorites(current_user.id, course.id)
+        await user_service.add_featured_course(current_user.id, course_id)
         return {
             "message": "Course added to favorites",
-            }
+        }
     except Exception as e:
         raise HTTPException(
-            status_code=500, 
+            status_code=500,
             detail="Error adding course to favorites"
-            )
-    
+        )
+
+
 @router.delete("/featured_courses/{course_id}")
 async def remove_featured_course(
     course_id: int,
     current_user: User = Depends(get_current_user),
-    user_featured_courses_service: UserFeaturedCoursesService = Depends(get_user_featured_courses_service),
+    user_service: UsersService = Depends(get_user_service),
 ):
     try:
-        await user_featured_courses_service.remove_from_favorites(current_user.id, course_id)
+        await user_service.remove_featured_course(current_user.id, course_id)
         return {
             "message": "Course removed from favorites",
-            }
+        }
     except Exception as e:
         raise HTTPException(
-            status_code=500, 
+            status_code=500,
             detail="Error removing course from favorites"
-            )
+        )

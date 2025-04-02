@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, ConfigDict
+from app.domain import Course
 
 
 class User(BaseModel):
@@ -10,6 +11,7 @@ class User(BaseModel):
     hashed_password: str
     is_teacher: bool = False
 
+    featured_courses: list[Course] = []
     model_config = ConfigDict(from_attributes=True)
 
 
