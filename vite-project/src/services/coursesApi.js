@@ -1,14 +1,17 @@
+// services/coursesApi.js
+import axios from "axios";
 import { API_BASE_URL, ENDPOINTS } from "./config";
 
+const API = axios.create({
+  baseURL: API_BASE_URL,
+  withCredentials: true,
+});
+
 export async function getCourses() {
-  try {
-    const response = await fetch(`${API_BASE_URL}${ENDPOINTS.courses.list}`, {method: "GET"});
-    console.log("response", response)
-    return response.json();
-  } catch (error) {
-    console.error("Ошибка загрузки курсов:", error);
-  }
+  const response = await API.get(ENDPOINTS.courses.list);
+  return response.data; // Возвращаем { data: [ ... ] }
 }
+
 
 // export async function fetchCourses() {
 //   try {

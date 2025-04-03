@@ -3,20 +3,9 @@ import { Button, Space, Layout, Select } from "antd";
 import { useNavigate } from "react-router-dom";
 
 import { getCourses } from "../../services/coursesApi";
+import styles from "./AppHeader.module.css";  // Импорт стилей
 
 //? TODO ВЫНЕСТИ ПОЛУЧЕНИЕ КУРСОВ В КОНТЕКСТ
-
-const headerStyle = {
-  width: "100%",
-  textAlign: "center",
-  color: "#fff",
-  height: 65,
-  padding: "1rem",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-};
-
 export default function AppHeader() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
@@ -26,8 +15,7 @@ export default function AppHeader() {
     async function loadCourses() {
       setLoading(true);
       try {
-        const response = await getCourses(); // Получаем данные от API
-        const data = response?.data; // Извлекаем курсы из объекта `data`
+        const {data} = await getCourses();
         
         // Проверяем, что полученные данные - это массив
         if (Array.isArray(data)) {
@@ -61,7 +49,7 @@ export default function AppHeader() {
 
   return (
     <>
-      <Layout.Header style={headerStyle}>
+      <Layout.Header className={styles.header}>
         <Select
           showSearch
           style={{ width: 300 }}

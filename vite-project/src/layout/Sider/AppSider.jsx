@@ -1,15 +1,12 @@
 import React from "react";
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
+import styles from "./AppSider.module.css";
 
-const siderStyle = {
-  padding: '1rem',
-  backgroundColor: '#0958d9',
-};
 
 export default function AppSider() {
   return (
-    <Layout.Sider style={siderStyle} width="25%">
+    <Layout.Sider className={styles.sider} width="25%">
       <Menu
         mode="inline"
         defaultSelectedKeys={["1"]}

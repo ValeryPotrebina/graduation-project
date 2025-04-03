@@ -1,23 +1,17 @@
 import "./App.css";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Home from "./pages/Home"
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "antd";
+import { routes } from "./routesConfig";
 
-const { Content } = Layout;
 export default function App() {
   return (
     <Router>
       <Layout>
-        <Content>
           <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            {routes.map(({path, element}, idx) => {
+              <Route key={idx} path={path} element={element}/>
+            })}
           </Routes>
-        </Content>
       </Layout>
     </Router>
   );
