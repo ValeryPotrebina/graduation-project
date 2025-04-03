@@ -54,6 +54,9 @@ class UserRepository(IUserRepository):
         user = User.model_validate(user)
         return user.featured_courses
 
+
+# TODO: добавить обработку случая добавления курска, который уже добавлен в featured_cources.
+
     async def add_featured_course(self, user_id: int, course_id: int) -> None:
         stmt = select(UserModel).options(selectinload(
             UserModel.featured_courses)).where(UserModel.id == user_id)

@@ -33,10 +33,11 @@ export const login = async ({ username, password }) => {
   }
 };
 
-export const check = async () => {
+export const checkAuth = async () => {
   try {
     const response = await API.post(ENDPOINTS.auth.check);
-    return response.data;
+    console.log("response", response.data.user)
+    return response.data.user;
   } catch (error) {
     throw error;
   }
@@ -45,6 +46,7 @@ export const check = async () => {
 export const logout = async () => {
   try {
     const response = await API.post(ENDPOINTS.auth.logout);
+
     return response.data;
   } catch (error) {
     throw error;

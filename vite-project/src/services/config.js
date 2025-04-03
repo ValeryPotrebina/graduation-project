@@ -11,4 +11,7 @@ export const ENDPOINTS = {
         list: `/courses`,
         create: `/courses`
     },
+    users: {
+        featured_courses: `/users/featured_courses`
+    }
 }
