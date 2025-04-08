@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from app.interfaces.routes.utils import get_courses_service, get_materials_service
 from app.services import CoursesService, MaterialsService
 from app.interfaces.schemas import MaterialReadSchema, MaterialCreateSchema, CourseGetRequest, CoursePostRequest, CoursePostResponse, CourseGetResponse
 from app.infrastructure.config.settings import settings
+import traceback
 
 router = APIRouter(
     prefix=settings.api.courses,
@@ -14,9 +15,16 @@ router = APIRouter(
 async def get_courses(
         courses_service: CoursesService = Depends(get_courses_service),
 ):
-    courses = await courses_service.get_courses()
-    return CourseGetResponse(
-        data=courses
+    try:
+        courses = await courses_service.get_courses()
+        return CourseGetResponse(
+            data=courses
+        )
+    except Exception as e:
+        print(traceback.format_exc())
+        raise HTTPException(
+            status_code=400,
+            detail="Error retrieving courses"
         )
 
 
@@ -25,17 +33,24 @@ async def create_course(
         request: CoursePostRequest,
         courses_service: CoursesService = Depends(get_courses_service),
 ):
-    course = await courses_service.create_course(request.name, request.description, request.semester)
-    return CoursePostResponse(
-        data=course
-    )
+    try:
+        course = await courses_service.create_course(request.name, request.description, request.semester)
+        return CoursePostResponse(
+            data=course
+        )
+    except Exception as e:
+        print(traceback.format_exc())
+        raise HTTPException(
+            status_code=400,
+            detail="Error creating course"
+        )
 
 
 @router.get("/{course_id}/materials", response_model=list[MaterialReadSchema])
 async def get_materials_by_course_id(
     course_id: int,
     materials_service: MaterialsService = Depends(get_materials_service),
-):  
+):
 
     materials = await materials_service.get_materials_by_course_id(course_id)
 

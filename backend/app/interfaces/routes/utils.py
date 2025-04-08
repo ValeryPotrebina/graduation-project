@@ -62,7 +62,6 @@ async def verify_session(
     cookies: Annotated[Cookies, Cookie()],
     user_service: UsersService = Depends(get_user_service)
 ) -> User:
-    print(cookies)
     if cookies.session_id is None:
         raise HTTPException(status_code=401, detail="Unauthorized")
     try:

@@ -1,4 +1,5 @@
 from typing import Optional
+from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from app.domain import IUserRepository, Course, User
@@ -54,10 +55,8 @@ class UserRepository(IUserRepository):
         user = User.model_validate(user)
         return user.featured_courses
 
-
-# TODO: добавить обработку случая добавления курска, который уже добавлен в featured_cources.
-
     async def add_featured_course(self, user_id: int, course_id: int) -> None:
+
         stmt = select(UserModel).options(selectinload(
             UserModel.featured_courses)).where(UserModel.id == user_id)
         result: Result = await self.session.execute(stmt)
@@ -65,7 +64,7 @@ class UserRepository(IUserRepository):
 
         if user is None:
             print("User not found")
-            return None
+            raise HTTPException(status_code=404, detail="User not found")
 
         stmt = select(CourseModel).where(CourseModel.id == course_id)
         result: Result = await self.session.execute(stmt)
@@ -73,7 +72,13 @@ class UserRepository(IUserRepository):
 
         if course is None:
             print("Course not found")
-            return None
+            raise HTTPException(status_code=404, detail="Course not found")
+        print(f"Adding course {course_id} to the user's featured courses list")
+
+        if course in user.featured_courses:
+            print("Course already in the user's featured courses list")
+            raise HTTPException(
+                status_code=400, detail="Course already in the user's featured courses list")
 
         user.featured_courses.append(course)
         await self.session.commit()

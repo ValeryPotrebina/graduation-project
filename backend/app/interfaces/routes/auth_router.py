@@ -4,6 +4,7 @@ from app.infrastructure.config.settings import settings
 from app.interfaces.schemas import AuthCheckRequest, AuthCheckResponce, AuthLoginRequest, AuthLoginResponce, AuthLogoutRequest, AuthLogoutResponce, AuthRegisterRequest, AuthRegisterResponce
 from .utils import get_user_service, verify_session
 from app.services import UsersService
+import traceback
 
 router = APIRouter(
     prefix=settings.api.auth,
@@ -17,18 +18,22 @@ async def register_user(
     response: Response,
     user_service: UsersService = Depends(get_user_service)
 ):
-    user, session_id = await user_service.register_user(
-        username=request.username,
-        password=request.password,
-        email=request.email,
-    )
+    try:
+        user, session_id = await user_service.register_user(
+            username=request.username,
+            password=request.password,
+            email=request.email,
+        )
 
-    response.set_cookie("session_id", session_id)
-    response.status_code = 200
+        response.set_cookie("session_id", session_id)
+        response.status_code = 200
 
-    return AuthRegisterResponce(
-        data=user
-    )
+        return AuthRegisterResponce(
+            data=user
+        )
+    except Exception as e:
+        print(traceback.format_exc())
+        raise HTTPException(status_code=400, detail="Could not register user")
 
 
 @router.post(settings.api.login, response_model=AuthLoginResponce)
@@ -51,7 +56,7 @@ async def login_user(
             data=user
         )
     except Exception as e:
-        print(e)
+        print(traceback.format_exc())
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
 
