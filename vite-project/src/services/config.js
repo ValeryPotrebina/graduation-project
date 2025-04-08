@@ -15,3 +15,9 @@ export const ENDPOINTS = {
         featured_courses: `/users/featured_courses`
     }
 }
+
+export const PATHS = {
+    login: "/login",
+    register: "/register",
+    home: "/",
+}
