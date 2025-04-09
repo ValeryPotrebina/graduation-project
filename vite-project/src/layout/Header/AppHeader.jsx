@@ -1,51 +1,50 @@
 import { Button, Space, Layout, Select, Avatar, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
-import { addFeaturedCourse } from "../../services/userService";
+import { addFeaturedCourse } from "../../features/courses/services/userService";
 import styles from "./AppHeader.module.css"; // Импорт стилей
-import { useCourses } from "../../hooks/useCourses";
-import { useAuth } from "../../hooks/useAuth";
+import { useCourses } from "../../features/courses/hooks/useCourses";
+import { useAuth } from "../../features/auth/hooks/useAuth";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useNotificationService } from "../../shared/notification/NotificationProvider";
+import { PATHS } from "../../config/config";
 
-import {PATHS} from "../../services/config";
 export default function AppHeader() {
   const navigate = useNavigate();
-  const {courses, coursesLoading} = useCourses();
-  const {currentUser, userLoading, handleLogout, setCurrentUser} = useAuth();
-  const [api, contextHolder] = notification.useNotification();
-
-
+  const { courses, coursesLoading } = useCourses();
+  const { currentUser, userLoading, handleLogout, setCurrentUser } = useAuth();
+  const { notifySuccess, notifyWarning, notifyError, notifyInfo } = useNotificationService();
 
   const handleAddToFeatured = async (courseId) => {
-    try {
-      if (!currentUser) {
-        api.warning({
-          message: "Предупреждение",
-          description: "Сначала войдите в систему",
-        });
-        return;
-      }
-      await addFeaturedCourse(courseId);
-      api.success({
-        message: "Успех",
-        description: "Курс добавлен в избранное!",
+    if (!currentUser) {
+      notifyWarning({
+        message: "Предупреждение",
+        description:
+          "Вы должны быть авторизованы, чтобы добавить курс в избранные.",
       });
+      return;
+    }
+    try {
+      await addFeaturedCourse(courseId);
+      notifySuccess({
+        message: "Успех",
+        description: "Курс успешно добавлен в избранные.",
+      })
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        api.warning({
+        notifyWarning({
           message: "Предупреждение",
-          description: "Этот курс уже добавлен в избранные.",
-        });
+          description: "Курс уже добавлен в избранные.",
+        })
       } else {
         console.error("Ошибка при добавлении курса в избранные", error);
-        api.error({
+        notifyError({
           message: "Ошибка",
-          description: "Произошла ошибка при добавлении курса в избранное.",
-        });
+          description: "Произошла ошибка при добавлении курса в избранные.",
+        })
       }
     }
   };
-
 
   const coursesOptions = courses.map((course) => ({
     value: course.id,
@@ -63,15 +62,21 @@ export default function AppHeader() {
     ),
   }));
 
-  const handleRegister = () => navigate(PATHS.register); 
-  const handleLogin = () => navigate(PATHS.login); 
+  const handleRegister = () => navigate(PATHS.register);
+  const handleLogin = () => navigate(PATHS.login);
   const handleUserLogout = () => {
     handleLogout();
     navigate(PATHS.home);
-  }
+  };
 
   // компонент для отображения информации о пользователе
-  const UserActions = ({currentUser, userLoading, handleUserLogout, handleRegister, handleLogin}) => {
+  const UserActions = ({
+    currentUser,
+    userLoading,
+    handleUserLogout,
+    handleRegister,
+    handleLogin,
+  }) => {
     if (userLoading) {
       return <LoadingOutlined />;
     }
@@ -105,7 +110,6 @@ export default function AppHeader() {
 
   return (
     <>
-      {contextHolder}
       <Layout.Header className={styles.header}>
         <Select
           showSearch

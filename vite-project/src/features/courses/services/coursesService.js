@@ -1,6 +1,6 @@
 // services/coursesApi.js
 import axios from "axios";
-import { API_BASE_URL, ENDPOINTS } from "./config";
+import { API_BASE_URL, ENDPOINTS } from "../../../config/config";
 
 const API = axios.create({
   baseURL: API_BASE_URL,

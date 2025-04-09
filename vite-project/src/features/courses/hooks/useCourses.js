@@ -1,4 +1,4 @@
-import { getCourses } from "../services/coursesApi";
+import { getCourses } from "../services/coursesService";
 import { useState, useEffect} from "react";
   
   
