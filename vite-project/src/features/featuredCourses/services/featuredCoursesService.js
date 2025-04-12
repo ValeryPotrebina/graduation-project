@@ -15,3 +15,8 @@ export async function getFeaturedCourses() {
   const response = await API.get(ENDPOINTS.users.featured_courses);
   return response.data;
 }
+
+export async function removeFeaturedCourse(courseId) {
+  const response = await API.delete(`${ENDPOINTS.users.featured_courses}/${courseId}`);
+  return response.data; 
+}
