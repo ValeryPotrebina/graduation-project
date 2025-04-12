@@ -64,10 +64,7 @@ async def login_user(
 async def check_user_session(
     user: User = Depends(verify_session)
 ):
-    return {
-        "message": "Authorized",
-        "user": user,
-    }
+    return AuthCheckResponce(data=user)
 
 
 @router.post(settings.api.logout)

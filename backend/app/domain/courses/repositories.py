@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from .models import Course
+
+
 class ICourseRepository(ABC):
     @abstractmethod
     async def get_courses(self) -> list[Course]:

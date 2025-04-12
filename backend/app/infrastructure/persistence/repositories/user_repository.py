@@ -78,7 +78,7 @@ class UserRepository(IUserRepository):
         if course in user.featured_courses:
             print("Course already in the user's featured courses list")
             raise HTTPException(
-                status_code=400, detail="Course already in the user's featured courses list")
+                status_code=401, detail="Course already in the user's featured courses list")
 
         user.featured_courses.append(course)
         await self.session.commit()
