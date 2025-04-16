@@ -12,7 +12,7 @@ export default async function apiLogin(
       username,
       password,
     })
-    console.log('response', response)
+    console.log('response login', response)
     return response.data.data // Возвращаем { data: { ...userData } }
   } catch (error) {
     throw error

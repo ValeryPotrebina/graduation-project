@@ -12,3 +12,6 @@ export const COURSES_CREATE = '/courses'
 
 // Users endpoints
 export const USERS_FEATURED_COURSES = '/users/featured_courses'
+
+// Materials endpoints
+export const MATERIALS = '/materials'

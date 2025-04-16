@@ -17,7 +17,7 @@ export default async function apiRegister(
         password,
       },
     )
-    console.log('response', response)
+    console.log('response register', response)
     return response.data.data // Возвращаем { data: { ...userData } }
   } catch (error) {
     throw error

@@ -25,7 +25,9 @@ const AuthProvider: FC<Props> = ({ children }) => {
 
   // Загрузка курсов
   useEffect(() => {
-    apiGetCourses().then(courses => setCourses(courses))
+    apiGetCourses().then(courses => {
+      setCourses(courses)
+    })
   }, [])
 
   useEffect(() => {

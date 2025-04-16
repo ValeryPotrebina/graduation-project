@@ -1,19 +1,12 @@
 import { FC } from 'react'
-import { Layout } from 'antd'
-import Header from '@/components/layout/Header/Header'
-import CoursesMenu from '@/components/layout/CoursesMenu/CoursesMenu'
 import Content from '@/components/layout/Content/Content'
+import Sider from '@/components/layout/Sider/Sider'
+import MainLayout from '@/components/layout/MainLayout'
 
 const HomePage: FC = () => {
   return (
     <>
-      <Layout>
-        <Header />
-        <Layout>
-          <CoursesMenu />
-          <Content />
-        </Layout>
-      </Layout>
+      <MainLayout sider={<Sider />} content={<Content />} />
     </>
   )
 }

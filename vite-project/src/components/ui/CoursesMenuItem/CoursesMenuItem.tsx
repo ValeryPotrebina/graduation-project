@@ -6,7 +6,7 @@ import FeaturedStar from '../FeaturedStar/FeaturedStar'
 import apiAddFeaturedCourse from '@/api/users/apiAddFeaturedCourse'
 import apiRemoveFeaturedCourse from '@/api/users/apiRemoveFeaturedCourse'
 import apiGetFeaturedCourse from '@/api/users/apiGetFeaturedCourse'
-
+import styles from './CourseMenuItem.module.css'
 interface Props {
   course: Course
   isFeatured: boolean
@@ -57,6 +57,7 @@ const CourseMenuItem: FC<Props> = ({ course, isFeatured }) => {
 
   return (
     <div
+      className={styles.menuItem}
       style={{
         display: 'flex',
         justifyContent: 'space-between',

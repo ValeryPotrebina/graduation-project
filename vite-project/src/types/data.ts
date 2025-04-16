@@ -9,3 +9,17 @@ export interface Course {
   description: string
   semester: number
 }
+
+export interface Material {
+  material_type: string
+  number: number
+  content: string
+  url: string
+}
+
+export enum MaterialType {
+  Lectures = 'lectures',
+  Seminars = 'seminars',
+  Labs = 'labs',
+  Exams = 'exams',
+}

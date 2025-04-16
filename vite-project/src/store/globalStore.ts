@@ -1,4 +1,4 @@
-import { Course, UserData } from '@/types/data'
+import { Course, Material, UserData } from '@/types/data'
 import { create } from 'zustand'
 // zustant
 interface IGlobalStore {
@@ -13,6 +13,9 @@ interface IGlobalStore {
 
   selectedCourse: Course | undefined
   setSelectedCourse: (course: Course | undefined) => void
+
+  materials: Material[]
+  setMaterials: (materials: Material[]) => void
 }
 
 const useGlobalStore = create<IGlobalStore>(set => ({
@@ -27,6 +30,9 @@ const useGlobalStore = create<IGlobalStore>(set => ({
 
   selectedCourse: undefined,
   setSelectedCourse: selectedCourse => set({ selectedCourse }),
+
+  materials: [],
+  setMaterials: materials => set({ materials }),
 }))
 
 export default useGlobalStore
