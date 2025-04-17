@@ -1,18 +1,20 @@
 import { FC, useState } from 'react'
-import { Form, Input, Button, Typography } from 'antd'
+import { Form, Input } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import apiLogin from '@/api/auth/apiLogin'
 import { useNotificationService } from '@/providers/NotificationProvider'
 import { HOME } from '@/constants/paths'
 import useGlobalStore from '@/store/globalStore'
-
-const { Title } = Typography
+import styles from './LoginPage.module.css'
+import { Container } from 'react-bootstrap'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import Button from '@/components/ui/Button/Button'
+// TODO Logout не обновляется автоматически
 
 interface FormValues {
   username: string
   password: string
 }
-
 const LoginPage: FC = () => {
   const navigate = useNavigate()
   const notification = useNotificationService()
@@ -31,31 +33,49 @@ const LoginPage: FC = () => {
   }
 
   return (
-    <div style={{ maxWidth: 400, margin: '0 auto' }}>
-      <Title level={2}>Вход</Title>
-      <Form name="login" layout="vertical" onFinish={handleLogin}>
-        <Form.Item
-          label="Имя пользователя"
-          name="username"
-          rules={[{ required: true, message: 'Введите имя пользователя!' }]}
+    <div className={styles.container}>
+      <Container className={styles.formContainer}>
+        <h1 className={styles.title}>Log in</h1>
+        <Form
+          name="login"
+          className={styles.form}
+          layout="vertical"
+          onFinish={handleLogin}
         >
-          <Input placeholder="Username" />
-        </Form.Item>
+          <Form.Item
+            className={styles.formField}
+            name="username"
+            // rules={[{ required: true, message: 'Введите имя пользователя!' }]}
+          >
+            <Input
+              style={{
+                borderRadius: '0px',
+              }}
+              prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="Username"
+            />
+          </Form.Item>
 
-        <Form.Item
-          label="Пароль"
-          name="password"
-          rules={[{ required: true, message: 'Введите пароль!' }]}
-        >
-          <Input.Password placeholder="Пароль" />
-        </Form.Item>
+          <Form.Item
+            className={styles.formField}
+            name="password"
+            // rules={[{ required: true, message: 'Введите пароль!' }]}
+          >
+            <Input
+              style={{
+                borderRadius: '0px',
+              }}
+              prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" block loading={loading}>
-            Войти
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item>
+            <Button text="SIGN IN"></Button>
+          </Form.Item>
+        </Form>
+      </Container>
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import useGlobalStore from '@/store/globalStore'
 import apiLogout from '@/api/auth/apiLogout'
 import { useNotificationService } from '@/providers/NotificationProvider'
-import { HOME, LOGIN, REGISTER } from '@/constants/paths'
+import { AUTH, HOME } from '@/constants/paths'
 const Header: FC = () => {
   const navigate = useNavigate()
   const { courses, user } = useGlobalStore()
@@ -25,8 +25,7 @@ const Header: FC = () => {
       .catch(error => notification?.notifyError({ message: error.message }))
   }
 
-  const handleRegister = () => navigate(REGISTER)
-  const handleLogin = () => navigate(LOGIN)
+  const handleAuth = () => navigate(AUTH)
 
   const UserActions = () => {
     if (user) {
@@ -50,8 +49,7 @@ const Header: FC = () => {
 
     return (
       <Space>
-        <Button onClick={handleRegister}>Регистрация</Button>
-        <Button onClick={handleLogin}>Войти</Button>
+        <Button onClick={handleAuth}>AUTH</Button>
       </Space>
     )
   }
