@@ -16,6 +16,9 @@ interface IGlobalStore {
 
   materials: Material[]
   setMaterials: (materials: Material[]) => void
+
+  selectedMaterial: Material | undefined
+  setSelectedMaterial: (material: Material | undefined) => void
 }
 
 const useGlobalStore = create<IGlobalStore>(set => ({
@@ -33,6 +36,9 @@ const useGlobalStore = create<IGlobalStore>(set => ({
 
   materials: [],
   setMaterials: materials => set({ materials }),
+
+  selectedMaterial: undefined,
+  setSelectedMaterial: selectedMaterial => set({ selectedMaterial }),
 }))
 
 export default useGlobalStore

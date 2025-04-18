@@ -1,6 +1,7 @@
 // menuUtils.ts
 import { MenuProps } from 'antd'
 
+// TODO убрать фигни с автозакрыванием (не работает)
 export interface LevelKeysProps {
   key?: string
   children?: LevelKeysProps[]

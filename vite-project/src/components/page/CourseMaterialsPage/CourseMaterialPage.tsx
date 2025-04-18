@@ -1,5 +1,5 @@
 import apiGetCourseMaterials from '@/api/materials/apiGetCourseMaterials'
-import CourseMaterialContent from '@/components/layout/Content/CourseMaterialContent/CourseMaterialContent'
+import MaterialContent from '@/components/layout/Content/CourseMaterialContent/MaterialContent'
 import MainLayout from '@/components/layout/MainLayout'
 import CourseMaterialSider from '@/components/layout/Sider/CourseMaterialSider/CourseMaterialSider'
 import { useNotificationService } from '@/providers/NotificationProvider'
@@ -39,7 +39,7 @@ const CourseMaterialPage: FC = () => {
           materialType={materialType || 'lectures'}
         />
       }
-      content={<CourseMaterialContent />}
+      content={<MaterialContent />}
     />
   )
 }
