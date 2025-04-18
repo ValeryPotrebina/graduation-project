@@ -8,7 +8,7 @@ import { useNotificationService } from '@/providers/NotificationProvider'
 import { AUTH, HOME } from '@/constants/paths'
 const Header: FC = () => {
   const navigate = useNavigate()
-  const { courses, user } = useGlobalStore()
+  const { courses, user, setUser } = useGlobalStore()
   const notification = useNotificationService()
 
   const coursesOptions = courses.map(course => ({
@@ -21,7 +21,14 @@ const Header: FC = () => {
   }))
   const handleLogout = () => {
     apiLogout()
-      .then(() => navigate(HOME))
+      .then(() => {
+        navigate(HOME)
+        notification?.notifySuccess({
+          message: 'Успех',
+          description: 'Вы успешно вышли из системы.',
+        })
+        setUser(undefined)
+      })
       .catch(error => notification?.notifyError({ message: error.message }))
   }
 
