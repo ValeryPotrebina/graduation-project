@@ -1,16 +1,16 @@
-import styles from './Sider.module.css'
+import { FC, ReactNode } from 'react'
 import { Layout } from 'antd'
-import { FC } from 'react'
-import CoursesMenu from '../../ui/Menu/CoursesMenu/CoursesMenu'
+import styles from './Sider.module.css'
 
-// TODO тут тоже чет не так исправить
-const Sider: FC = () => {
+interface Props {
+  menu: ReactNode
+}
+
+const Sider: FC<Props> = ({ menu }) => {
   return (
-    <>
-      <Layout.Sider className={styles.sider} width="25%">
-        <CoursesMenu />
-      </Layout.Sider>
-    </>
+    <Layout.Sider width="25%" className={styles.sider}>
+      {menu}
+    </Layout.Sider>
   )
 }
 

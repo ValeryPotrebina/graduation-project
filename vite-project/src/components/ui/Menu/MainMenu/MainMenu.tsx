@@ -6,6 +6,7 @@ import {
   getLevelKeys,
   LevelKeysProps,
 } from '../../utils/utilsMenu'
+import { Resizable } from 're-resizable'
 
 type MenuItem = Required<MenuProps>['items'][number]
 interface Props {

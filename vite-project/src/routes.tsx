@@ -1,5 +1,5 @@
 import AuthPage from './components/page/AuthPage/AuthPage'
-import CourseMaterialPage from './components/page/CourseMaterialsPage/CourseMaterialPage'
+import MaterialPage from './components/page/MaterialPage/MaterialPage'
 import HomePage from './components/page/HomePage/HomePage'
 import LoginPage from './components/page/LoginPage/LoginPage'
 import RegisterPage from './components/page/RegisterPage/RegisterPage'
@@ -26,7 +26,7 @@ export const routes = [
   },
   {
     path: `${COURSE_MATERIALS}/:courseId/:materialType`,
-    element: <CourseMaterialPage />,
+    element: <MaterialPage />,
   },
   {
     path: AUTH,

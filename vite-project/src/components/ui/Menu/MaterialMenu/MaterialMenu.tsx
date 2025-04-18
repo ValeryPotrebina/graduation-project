@@ -1,19 +1,39 @@
-import { Material } from '@/types/data'
 import { MenuProps } from 'antd'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import MainMenu from '../MainMenu/MainMenu'
 import MaterialItem from '../../MaterialItem'
+import { useParams } from 'react-router-dom'
+import useGlobalStore from '@/store/globalStore'
+import { useNotificationService } from '@/providers/NotificationProvider'
+import apiGetCourseMaterials from '@/api/materials/apiGetCourseMaterials'
 
 type MenuItem = Required<MenuProps>['items'][number]
-
-interface Props {
-  materials: Material[]
-  materialType: string
-}
-
 // разделить материалы по лекциям и семинарам, а также по их номерам
 
-const MaterialMenu: FC<Props> = ({ materials, materialType }) => {
+const MaterialMenu: FC = () => {
+  const { courseId, materialType } = useParams<{
+    courseId: string
+    materialType: string
+  }>()
+
+  const { materials, setMaterials } = useGlobalStore()
+  const notification = useNotificationService()
+
+  useEffect(() => {
+    if (!courseId) {
+      setMaterials([])
+      return
+    }
+    apiGetCourseMaterials(Number(courseId))
+      .then(materials => {
+        setMaterials(materials)
+        console.log('materials', materials)
+      })
+      .catch(error => {
+        notification?.notifyError({ message: error.message })
+      })
+  }, [Number(courseId)])
+
   const getMaterialNumbers = (type: string) => {
     const numbers = materials
       .filter(m => m.material_type === type)
@@ -56,7 +76,9 @@ const MaterialMenu: FC<Props> = ({ materials, materialType }) => {
 
   // TODO почему-то не работает автозакрытие меню (исправить)
 
-  return <MainMenu items={items} defaultOpenKeys={[materialType]} />
+  return (
+    <MainMenu items={items} defaultOpenKeys={[materialType || 'lectures']} />
+  )
 }
 
 export default MaterialMenu
