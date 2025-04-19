@@ -31,4 +31,5 @@ class CourseModel(Base):
     )
 
     materials: Mapped[list["MaterialModel"]] = relationship(
-        back_populates="course", cascade="all, delete-orphan")
+        back_populates="course", cascade="all, delete-orphan"
+    )

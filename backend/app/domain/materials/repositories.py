@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 from .models import Material
 
+
 class IMaterialRepository(ABC):
     @abstractmethod
-    async def create_material(self, course_id: int) -> list[Material]:
+    async def create_material(self, material: Material) -> Material:
         ...
 
     @abstractmethod

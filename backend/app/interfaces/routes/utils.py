@@ -1,10 +1,14 @@
+from multiprocessing.connection import Client
 from typing import Annotated
 from fastapi import Cookie, Depends, HTTPException
 from pydantic import BaseModel
 from app.domain import User
 from app.infrastructure.persistence.repositories import CourseRepository, SessionRepository, UserRepository, MaterialRepository
+from app.infrastructure.persistence.repositories.file_repository import FileRepository
 from app.services import UsersService, CoursesService, MaterialsService
 from app.infrastructure.config.database import db_helper
+from app.infrastructure.config.ftp import ftp_helper
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -73,3 +77,9 @@ async def verify_session(
 
 async def get_current_user(user: User = Depends(verify_session)):
     return user
+
+
+# !
+
+async def get_file_repo(client: Client = Depends(ftp_helper.session_getter)) -> FileRepository:
+    return FileRepository(client)

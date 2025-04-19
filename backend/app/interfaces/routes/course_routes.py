@@ -1,7 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException
-from app.interfaces.routes.utils import get_courses_service, get_materials_service
+import os
+import uuid
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi.responses import StreamingResponse
+from app.infrastructure.persistence.repositories.file_repository import FileRepository
+from app.interfaces.routes.utils import get_courses_service, get_file_repo, get_materials_service
 from app.services import CoursesService, MaterialsService
-from app.interfaces.schemas import MaterialReadSchema, MaterialCreateSchema, CourseGetRequest, CoursePostRequest, CoursePostResponse, CourseGetResponse
+from app.interfaces.schemas import MaterialGetResponse, MaterialPostRequest, MaterialPostResponse, CoursePostRequest, CoursePostResponse, CourseGetResponse
 from app.infrastructure.config.settings import settings
 import traceback
 
@@ -46,35 +50,67 @@ async def create_course(
         )
 
 
-@router.get("/{course_id}/materials", response_model=list[MaterialReadSchema])
+@router.get("/{course_id}/materials", response_model=list[MaterialGetResponse])
 async def get_materials_by_course_id(
     course_id: int,
     materials_service: MaterialsService = Depends(get_materials_service),
 ):
+    try:
+        materials = await materials_service.get_materials_by_course_id(course_id)
+        return MaterialGetResponse(data=materials)
+    except Exception as e:
+        print(traceback.format_exc())
+        raise HTTPException(
+            status_code=400,
+            detail="Error retrieving materials"
+        )
 
-    materials = await materials_service.get_materials_by_course_id(course_id)
 
-    return [MaterialReadSchema.model_validate(m) for m in materials]
-
-
-@router.post("/{course_id}/materials", response_model=MaterialCreateSchema, status_code=201)
+@router.post("/{course_id}/materials", status_code=201)
 async def create_material(
     course_id: int,
-    material_in: MaterialCreateSchema,
+    request: MaterialPostRequest,
     materials_service: MaterialsService = Depends(get_materials_service),
 ):
     material = await materials_service.create_material(
         course_id=course_id,
-        material_type=material_in.material_type,
-        number=material_in.number,
-        content=material_in.content,
-        url=material_in.url
+        material_type=request.material_type,
+        name=request.name,
+        number=request.number,
+        content=request.content,
     )
 
-    return MaterialCreateSchema(
-        course_id=material.course_id,
-        material_type=material.material_type,
-        number=material.number,
-        content=material.content,
-        url=material.url
-    )
+    return MaterialPostResponse(data=material)
+
+
+@router.post("/upload")
+async def uploadFile(
+    file: UploadFile = File(...),
+    file_repository: FileRepository = Depends(get_file_repo)
+):
+    file_id = uuid.uuid4()
+    file_ext = os.path.splitext(file.filename)[1]
+    filename = f"{file_id}{file_ext}"
+
+    await file_repository.uploadFile(file, filename)
+
+    return {
+        "file_id": file_id,
+        "file_url": f"{filename}"
+    }
+
+
+@router.get("/{filename}")
+async def get_file(
+    filename: str,
+    file_repository: FileRepository = Depends(get_file_repo),
+):
+    try:
+        stream = await file_repository.downloadFile(filename)
+        return StreamingResponse(stream)
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(
+            status_code=404,
+            detail="File not found"
+        )

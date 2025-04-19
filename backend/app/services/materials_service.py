@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import HTTPException
 from app.domain import Material
@@ -26,11 +26,11 @@ class MaterialsService:
         self,
         course_id: int,
         material_type: str,
-        number: int,
-        content: str,
-        url: str
+        name: Optional[str],
+        number: Optional[int],
+        content: Optional[str],
     ) -> Material:
-        
+
         course = await self.course_repo.get_course_by_id(course_id)
         if not course:
             raise HTTPException("Course is not found")
@@ -38,9 +38,10 @@ class MaterialsService:
         new_material = Material(
             course_id=course_id,
             material_type=material_type,
+            name=name,
             number=number,
             content=content,
-            url=url
+            files=[],
         )
-        
+
         return await self.material_repo.create_material(new_material)

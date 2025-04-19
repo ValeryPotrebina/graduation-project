@@ -21,4 +21,4 @@ class MaterialRepository(IMaterialRepository):
         new_material = MaterialModel(**material.model_dump())
         self.session.add(new_material)
         await self.session.commit()
-        return material
+        return Material.model_validate(new_material)

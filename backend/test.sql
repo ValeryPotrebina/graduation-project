@@ -1,3 +1,19 @@
+-- УДАЛЕНИЕ ВСЕХ ДАННЫХ ИЗ БД
+delete from
+    sessions;
+
+delete from
+    user_featured_courses;
+
+delete from
+    materials;
+
+delete from
+    courses;
+
+delete from
+    users;
+
 INSERT INTO
     courses (name, description, semester)
 VALUES
