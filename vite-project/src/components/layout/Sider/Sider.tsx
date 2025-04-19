@@ -1,15 +1,27 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useState } from 'react'
 import { Layout } from 'antd'
 import styles from './Sider.module.css'
-
 interface Props {
-  menu: ReactNode
+  children: ReactNode
 }
 
-const Sider: FC<Props> = ({ menu }) => {
+const Sider: FC<Props> = ({ children }) => {
+  const [collapsed, setCollapsed] = useState(false)
+
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed)
+  }
+
   return (
-    <Layout.Sider width="25%" className={styles.sider}>
-      {menu}
+    <Layout.Sider
+      width="20%"
+      collapsible
+      collapsed={collapsed}
+      className={styles.sider}
+      trigger={null}
+      onDoubleClick={toggleCollapsed}
+    >
+      {children}
     </Layout.Sider>
   )
 }

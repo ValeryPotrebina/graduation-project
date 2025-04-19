@@ -3,18 +3,14 @@ import { FC, ReactNode } from 'react'
 import Header from './Header/Header'
 
 interface Props {
-  sider: ReactNode
-  content: ReactNode
+  children: ReactNode
 }
 
-const MainLayout: FC<Props> = ({ sider, content }) => {
+const MainLayout: FC<Props> = ({ children }) => {
   return (
     <Layout>
       <Header />
-      <Layout>
-        {sider}
-        {content}
-      </Layout>
+      <Layout>{children}</Layout>
     </Layout>
   )
 }

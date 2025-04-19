@@ -69,7 +69,7 @@
 }
 
 .title {
-    font-family: initial;
+    font-family: inherit;
     color: white;
     font-size: 3rem;
     font-weight: 600;

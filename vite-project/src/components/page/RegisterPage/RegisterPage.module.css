@@ -12,7 +12,7 @@
     font-weight: 600;
     margin-bottom: 2rem;
     text-align: center;
-    font-family: initial
+    font-family: inherit
 }
 
 .form {

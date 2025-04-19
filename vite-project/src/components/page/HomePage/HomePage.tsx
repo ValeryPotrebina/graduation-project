@@ -7,10 +7,12 @@ import CourseMenu from '@/components/ui/Menu/CoursesMenu/CoursesMenu'
 const HomePage: FC = () => {
   return (
     <>
-      <MainLayout
-        sider={<Sider menu={<CourseMenu />} />}
-        content={<Content />}
-      />
+      <MainLayout>
+        <Sider>
+          <CourseMenu />
+        </Sider>
+        <Content />
+      </MainLayout>
     </>
   )
 }
