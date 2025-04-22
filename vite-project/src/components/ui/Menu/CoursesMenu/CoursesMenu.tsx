@@ -3,7 +3,7 @@ import { Menu, MenuProps } from 'antd'
 import useGlobalStore from '@/store/globalStore'
 import CourseMenuItem from '@/components/ui/CoursesMenuItem/CoursesMenuItem'
 import MainMenu from '../MainMenu/MainMenu'
-import Icon, { HeartFilled } from '@ant-design/icons'
+import { HeartFilled } from '@ant-design/icons'
 
 const SEMESTER_COUNT = 8
 

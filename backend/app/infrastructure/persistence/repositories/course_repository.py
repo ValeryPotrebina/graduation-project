@@ -4,6 +4,8 @@ from app.domain import Course
 from app.infrastructure.persistence.orm_models import CourseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.engine import Result
+
+
 class CourseRepository(ICourseRepository):
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -18,7 +20,7 @@ class CourseRepository(ICourseRepository):
         new_course = CourseModel(**course.model_dump())
         self.session.add(new_course)
         await self.session.commit()
-        
+
         return Course.model_validate(new_course)
 
     async def get_course_by_id(self, course_id: int) -> Course:

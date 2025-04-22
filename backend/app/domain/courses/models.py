@@ -7,5 +7,6 @@ class Course(BaseModel):
     semester: int
     id: Optional[int] = None
     description: Optional[str] = None
+    teacher: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)

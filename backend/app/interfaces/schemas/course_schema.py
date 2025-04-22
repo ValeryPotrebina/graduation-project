@@ -7,6 +7,7 @@ class Course(BaseModel):
     name: str
     description: Optional[str] = None
     semester: int
+    teacher: Optional[str] = None
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -22,6 +23,7 @@ class CoursePostRequest(BaseModel):
     name: str
     description: Optional[str] = None
     semester: int
+    teacher: Optional[str] = None
 
 
 class CoursePostResponse(BaseModel):

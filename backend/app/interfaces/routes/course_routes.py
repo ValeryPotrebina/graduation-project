@@ -38,7 +38,7 @@ async def create_course(
         courses_service: CoursesService = Depends(get_courses_service),
 ):
     try:
-        course = await courses_service.create_course(request.name, request.description, request.semester)
+        course = await courses_service.create_course(request.name, request.description, request.semester, request.teacher)
         return CoursePostResponse(
             data=course
         )

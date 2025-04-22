@@ -8,6 +8,7 @@ export interface Course {
   name: string
   description: string
   semester: number
+  teacher: string
 }
 
 export interface Material {

@@ -44,7 +44,7 @@ const CourseInfo: FC<Props> = ({ course }) => {
               <span>256</span>
             </Descriptions.Item>
             <Descriptions.Item label="Преподаватель">
-              <span>Домрачева Анна Борисовна</span>
+              <span>{course.teacher}</span>
             </Descriptions.Item>
             <Divider orientation="left">Описание курса</Divider>
             <Paragraph style={{ whiteSpace: 'pre-line' }}>
