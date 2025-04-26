@@ -1,11 +1,14 @@
 import os
 import uuid
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
-from app.infrastructure.persistence.repositories.file_repository import FileRepository
-from app.interfaces.routes.utils import get_courses_service, get_file_repo, get_materials_service
+from app.domain.materials.models import Material
 from app.services import CoursesService, MaterialsService
-from app.interfaces.schemas import MaterialGetResponse, MaterialPostRequest, MaterialPostResponse, CoursePostRequest, CoursePostResponse, CourseGetResponse
+
+from app.interfaces.routes.utils import get_courses_service, get_file_repo, get_materials_service
+from app.interfaces.schemas import AddFileToMaterialResponse, AddFileToMaterialRequest
+from app.interfaces.schemas import MaterialGetResponse, MaterialPostRequest, MaterialPostResponse
+from app.interfaces.schemas import CourseGetResponse, CoursePostRequest, CoursePostResponse
 from app.infrastructure.config.settings import settings
 import traceback
 
@@ -50,7 +53,7 @@ async def create_course(
         )
 
 
-@router.get("/{course_id}/materials", response_model=list[MaterialGetResponse])
+@router.get("/{course_id}/materials", response_model=MaterialGetResponse)
 async def get_materials_by_course_id(
     course_id: int,
     materials_service: MaterialsService = Depends(get_materials_service),
@@ -83,30 +86,25 @@ async def create_material(
     return MaterialPostResponse(data=material)
 
 
-@router.post("/upload")
+@router.post("/materials/{material_id}/files", status_code=201)
 async def uploadFile(
+    material_id: int,
+    file_name: str = Form(...),
+    file_description: str = Form(None),
     file: UploadFile = File(...),
-    file_repository: FileRepository = Depends(get_file_repo)
+    materials_service: MaterialsService = Depends(get_materials_service),
 ):
-    file_id = uuid.uuid4()
-    file_ext = os.path.splitext(file.filename)[1]
-    filename = f"{file_id}{file_ext}"
-
-    await file_repository.uploadFile(file, filename)
-
-    return {
-        "file_id": file_id,
-        "file_url": f"{filename}"
-    }
+    material: Material = await materials_service.add_file_to_material(file_data=file, material_id=material_id, file_name=file_name, file_description=file_description)
+    return AddFileToMaterialResponse(data=material)
 
 
-@router.get("/{filename}")
-async def get_file(
-    filename: str,
-    file_repository: FileRepository = Depends(get_file_repo),
+@router.get("/materials/{file_id}")
+async def download_file(
+    materials_service: MaterialsService = Depends(get_materials_service),
+    file_id: str = None
 ):
     try:
-        stream = await file_repository.downloadFile(filename)
+        stream = await materials_service.download_file(file_id)
         return StreamingResponse(stream)
     except Exception as e:
         traceback.print_exc()

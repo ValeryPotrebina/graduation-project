@@ -15,7 +15,6 @@ export interface Material {
   material_type: string
   number: number
   content: string
-  url: string
 }
 
 export enum MaterialType {

@@ -2,8 +2,8 @@ from sqlalchemy import select
 from app.domain import ICourseRepository
 from app.domain import Course
 from app.infrastructure.persistence.orm_models import CourseModel
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.engine import Result
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class CourseRepository(ICourseRepository):

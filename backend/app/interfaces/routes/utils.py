@@ -49,11 +49,22 @@ async def get_material_repo(session: AsyncSession = Depends(db_helper.session_ge
     return MaterialRepository(session=session)
 
 
+async def get_file_repo(
+        client: Client = Depends(ftp_helper.session_getter),
+        session: AsyncSession = Depends(db_helper.session_getter)
+) -> FileRepository:
+    return FileRepository(
+        client=client,
+        session=session,
+    )
+
+
 async def get_materials_service(
         course_repo: CourseRepository = Depends(get_course_repo),
         material_repo: MaterialRepository = Depends(get_material_repo),
+        file_repo: FileRepository = Depends(get_file_repo),
 ) -> MaterialsService:
-    return MaterialsService(material_repo, course_repo)
+    return MaterialsService(material_repo, course_repo, file_repo)
 
 #! Прочие зависимости для аутенфикации
 
@@ -77,9 +88,3 @@ async def verify_session(
 
 async def get_current_user(user: User = Depends(verify_session)):
     return user
-
-
-# !
-
-async def get_file_repo(client: Client = Depends(ftp_helper.session_getter)) -> FileRepository:
-    return FileRepository(client)

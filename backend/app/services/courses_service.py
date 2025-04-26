@@ -14,6 +14,3 @@ class CoursesService:
         new_course = Course(name=name, description=description,
                             semester=semester, teacher=teacher)
         return await self.course_repo.create_course(new_course)
-
-    async def get_course_by_id(self, course_id: int) -> Optional[Course]:
-        return await self.course_repo.get_course_by_id(course_id)

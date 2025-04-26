@@ -15,7 +15,6 @@ class MaterialFile(BaseModel):
 
 class Material(BaseModel):
     id: Optional[int] = None
-    course_id: int
     material_type: str
     name: Optional[str] = None
     number: Optional[int] = None

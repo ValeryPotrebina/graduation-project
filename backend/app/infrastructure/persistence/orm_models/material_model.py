@@ -27,12 +27,9 @@ class MaterialModel(CourseRelationMixin, Base):
     course: Mapped["CourseModel"] = relationship(back_populates="materials")
 
     files: Mapped[list["MaterialFileModel"]] = relationship(
-        back_populates="material", cascade="all, delete-orphan"
+        back_populates="material", cascade="all, delete-orphan", lazy="selectin"
     )
 
     # благодаря CourseRelationMixin ниже у нас будет:
     # course_id = ForeignKey("courses.id", ondelete="CASCADE")
     # course = relationship("CourseModel", back_populates="materials")
-
-    def __repr__(self) -> str:
-        return f"Material(id={self.id}, material_type={self.material_type}, number={self.number}, content={self.content}, url={self.url})"
