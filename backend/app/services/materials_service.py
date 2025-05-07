@@ -58,7 +58,9 @@ class MaterialsService:
         if not file:
             raise HTTPException(status_code=404, detail="File is not found")
 
-        return await self.file_repo.download_file(file)
+        stream = await self.file_repo.download_file(file)
+
+        return stream, file.file_name
 
     async def add_file_to_material(
         self,
@@ -72,9 +74,13 @@ class MaterialsService:
         if not material:
             raise HTTPException(
                 status_code=404, detail="Material is not found")
+        original_file_name = file_data.filename
+        file_ext = os.path.splitext(original_file_name)[1]
+
+        if not os.path.splitext(file_name)[1]:
+            file_name = f"{file_name}{file_ext}"
 
         file_id = uuid.uuid4()
-        file_ext = os.path.splitext(file_name)[1]
         file_url = f"{file_id}{file_ext}"
 
         file = MaterialFile(

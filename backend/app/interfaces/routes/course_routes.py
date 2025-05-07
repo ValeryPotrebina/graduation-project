@@ -41,7 +41,7 @@ async def create_course(
         courses_service: CoursesService = Depends(get_courses_service),
 ):
     try:
-        course = await courses_service.create_course(request.name, request.description, request.semester, request.teacher)
+        course = await courses_service.create_course(request.name, request.description, request.semester, request.teacher, request.hours)
         return CoursePostResponse(
             data=course
         )
@@ -94,6 +94,7 @@ async def uploadFile(
     file: UploadFile = File(...),
     materials_service: MaterialsService = Depends(get_materials_service),
 ):
+    # return file
     material: Material = await materials_service.add_file_to_material(file_data=file, material_id=material_id, file_name=file_name, file_description=file_description)
     return AddFileToMaterialResponse(data=material)
 
@@ -104,8 +105,15 @@ async def download_file(
     file_id: str = None
 ):
     try:
-        stream = await materials_service.download_file(file_id)
-        return StreamingResponse(stream)
+        file_stream, filename = await materials_service.download_file(file_id)
+        return StreamingResponse(
+            file_stream,
+            media_type="application/octet-stream",
+            headers={
+                "Content-Disposition": f"attachment; filename={filename}",
+                "Content-Type": "application/octet-stream"
+            }
+        )
     except Exception as e:
         traceback.print_exc()
         raise HTTPException(

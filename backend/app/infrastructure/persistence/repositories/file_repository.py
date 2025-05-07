@@ -29,6 +29,7 @@ class FileRepository(IFileRepository):
     async def download_file(self, file: MaterialFile) -> Optional[BytesIO]:
         # Проверяем, существует ли файл на FTP-сервере
         exists = await self.client.exists(file.file_url)
+        print("exists", exists)
         if not exists:
             return None
 
@@ -39,7 +40,7 @@ class FileRepository(IFileRepository):
             memory_stream.write(chunk)
 
         memory_stream.seek(0)
-
+        print(memory_stream)
         return memory_stream
 
     async def upload_file(self, file_data: UploadFile, file: MaterialFile) -> Optional[MaterialFile]:

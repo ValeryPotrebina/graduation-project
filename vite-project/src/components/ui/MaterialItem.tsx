@@ -16,7 +16,7 @@ const MaterialItem: FC<Props> = ({ material }) => {
         setSelectedMaterial(material)
       }}
     >
-      {material.content}
+      {material.material_type} {material.number} - {material.name}
     </div>
   )
 }

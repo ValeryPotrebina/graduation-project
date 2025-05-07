@@ -8,6 +8,7 @@ class Course(BaseModel):
     description: Optional[str] = None
     semester: int
     teacher: Optional[str] = None
+    hours: Optional[int] = None
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -24,11 +25,8 @@ class CoursePostRequest(BaseModel):
     description: Optional[str] = None
     semester: int
     teacher: Optional[str] = None
+    hours: Optional[int] = None
 
 
 class CoursePostResponse(BaseModel):
     data: Course
-
-
-class TestRequest(BaseModel):
-    id: int

@@ -10,7 +10,7 @@ class CoursesService:
     async def get_courses(self) -> List[Course]:
         return await self.course_repo.get_courses()
 
-    async def create_course(self, name: str, description: Optional[str], semester: int, teacher: Optional[str]) -> Course:
+    async def create_course(self, name: str, description: Optional[str], semester: int, teacher: Optional[str], hours: Optional[int]) -> Course:
         new_course = Course(name=name, description=description,
-                            semester=semester, teacher=teacher)
+                            semester=semester, teacher=teacher, hours=hours)
         return await self.course_repo.create_course(new_course)

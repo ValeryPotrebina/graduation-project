@@ -1,3 +1,5 @@
+import { UUID } from 'crypto'
+
 export interface UserData {
   username: string
   email: string
@@ -13,8 +15,10 @@ export interface Course {
 
 export interface Material {
   material_type: string
+  name: string
   number: number
   content: string
+  files: MaterialFile[]
 }
 
 export enum MaterialType {
@@ -22,4 +26,12 @@ export enum MaterialType {
   Seminars = 'seminars',
   Labs = 'labs',
   Exams = 'exams',
+}
+
+export interface MaterialFile {
+  id: UUID
+  material_id: number
+  file_name: string
+  file_description: string
+  file_url: string
 }

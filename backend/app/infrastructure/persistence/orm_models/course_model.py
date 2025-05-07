@@ -18,6 +18,7 @@ class CourseModel(Base):
     description: Mapped[str] = mapped_column(Text, nullable=True)
     semester: Mapped[int] = mapped_column(Integer, nullable=False)
     teacher: Mapped[str] = mapped_column(String(255), nullable=True)
+    hours: Mapped[int] = mapped_column(Integer, nullable=True)
 
     featured_by: Mapped[list["UserModel"]] = relationship(
         secondary="user_featured_courses",

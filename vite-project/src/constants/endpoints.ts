@@ -15,3 +15,4 @@ export const USERS_FEATURED_COURSES = '/users/featured_courses'
 
 // Materials endpoints
 export const MATERIALS = '/materials'
+export const FILES = '/files'

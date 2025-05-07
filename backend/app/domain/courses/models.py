@@ -8,5 +8,6 @@ class Course(BaseModel):
     id: Optional[int] = None
     description: Optional[str] = None
     teacher: Optional[str] = None
+    hours: Optional[int] = None
 
     model_config = ConfigDict(from_attributes=True)
