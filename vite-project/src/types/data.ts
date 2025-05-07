@@ -11,6 +11,7 @@ export interface Course {
   description: string
   semester: number
   teacher: string
+  hours: number
 }
 
 export interface Material {

@@ -41,7 +41,7 @@ const CourseInfo: FC<Props> = ({ course }) => {
               <span className={styles.semester}>{course.semester}</span>
             </Descriptions.Item>
             <Descriptions.Item label="Количество часов">
-              <span>256</span>
+              <span>{course.hours}</span>
             </Descriptions.Item>
             <Descriptions.Item label="Преподаватель">
               <span>{course.teacher}</span>

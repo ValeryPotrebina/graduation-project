@@ -5,3 +5,45 @@
     color: rgba(0, 0, 0, 0.85);
     background-color: #cfdbed;
 }
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.filesHeader {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.fileItem {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.fileInfo {
+    display: flex;
+    align-items: center;
+}
+
+.fileIcon {
+    font-size: 18px;
+    margin-right: 8px;
+    color: #1890ff;
+}
+
+.fileLink {
+    color: #1890ff;
+    cursor: pointer;
+    margin-right: 10px;
+    text-decoration: underline;
+}
+
+.fileLink:hover {
+    color: #40a9ff;
+}
+
+.spinner {
+    margin-left: 8px;
+}

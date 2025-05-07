@@ -57,17 +57,17 @@ const MaterialMenu: FC = () => {
       key: MaterialType.Lectures,
       label: 'Лекции',
       // ПОМЕНЯТЬ БЛЯТЬ НА ЕНУМЫ ТУТ И НА БЭКЕ
-      children: createMenuItems('Лекция', 'lecture'),
+      children: createMenuItems(MaterialType.Lectures, 'lecture'),
     },
     {
       key: MaterialType.Seminars,
       label: 'Семинары',
-      children: createMenuItems('Семинар', 'seminar'),
+      children: createMenuItems(MaterialType.Seminars, 'seminar'),
     },
     {
       key: MaterialType.Labs,
       label: 'Лабораторные',
-      children: createMenuItems('Лабораторная', 'lab'),
+      children: createMenuItems(MaterialType.Labs, 'lab'),
     },
   ]
 

@@ -1,5 +1,5 @@
 import useGlobalStore from '@/store/globalStore'
-import { Material } from '@/types/data'
+import { Material, MaterialType } from '@/types/data'
 import { FC } from 'react'
 
 interface Props {
@@ -7,6 +7,18 @@ interface Props {
 }
 
 const MaterialItem: FC<Props> = ({ material }) => {
+  const type = (materialType: string) => {
+    switch (materialType) {
+      case MaterialType.Lectures:
+        return 'Лекция'
+      case MaterialType.Seminars:
+        return 'Семинар'
+      case MaterialType.Labs:
+        return 'Лаба'
+      default:
+        return 'Default'
+    }
+  }
   const { setSelectedMaterial } = useGlobalStore()
   return (
     <div
@@ -16,7 +28,7 @@ const MaterialItem: FC<Props> = ({ material }) => {
         setSelectedMaterial(material)
       }}
     >
-      {material.material_type} {material.number} - {material.name}
+      {type(material.material_type)} {material.number} - {material.name}
     </div>
   )
 }

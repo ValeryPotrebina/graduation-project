@@ -51,3 +51,4 @@ file = {
 problems:
 1. server doesnt wotk if ftp is not running
 2. files upload
+3. fix login and register 

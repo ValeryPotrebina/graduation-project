@@ -5,7 +5,7 @@ from app.domain import Session
 from app.infrastructure.persistence.repositories import SessionRepository
 from app.domain import User
 from .utils import generate_session_id, hash_password, verify_password
-
+import traceback
 import logging
 
 logger = logging.getLogger(__name__)
@@ -56,7 +56,7 @@ class UsersService:
     ) -> User:
 
         user = await self.user_repo.get_user_by_username(username=username)
-
+        print("user", user)
         try:
             if not user:
                 logger.error(f"User with username {username} not found")
@@ -72,6 +72,7 @@ class UsersService:
             return user, session_id
         except Exception as e:
             logger.error(f"Error during login: {e}")
+            print(traceback.format_exc())
             raise HTTPException(status_code=400, detail="Invalid credentials")
 
     async def check_authorization(
@@ -117,6 +118,7 @@ class UsersService:
 
 
 # ---------------------------------------------------------
+
 
     async def get_featured_courses(self, user_id: int) -> list[User]:
         return await self.user_repo.get_featured_courses(user_id=user_id)

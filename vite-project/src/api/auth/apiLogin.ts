@@ -8,6 +8,7 @@ export default async function apiLogin(
   password: string,
 ): Promise<UserData> {
   try {
+    console.log('login')
     const response = await requester.post<ApiResponse<UserData>>(AUTH_LOGIN, {
       username,
       password,
