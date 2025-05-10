@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Form, Input } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import apiRegister from '@/api/auth/apiRegister'
@@ -18,18 +18,15 @@ interface FormValues {
 
 const RegisterPage: FC = () => {
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
   const { setUser } = useGlobalStore()
   const notification = useNotificationService()
   const handleRegister = (values: FormValues) => {
-    setLoading(true)
     apiRegister(values.username, values.email, values.password)
       .then(user => {
         navigate(HOME)
         setUser(user)
       })
       .catch(error => notification?.notifyError({ message: error.message }))
-      .finally(() => setLoading(false))
   }
 
   return (

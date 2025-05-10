@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Form, Input } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import apiLogin from '@/api/auth/apiLogin'
@@ -18,18 +18,15 @@ interface FormValues {
 const LoginPage: FC = () => {
   const navigate = useNavigate()
   const notification = useNotificationService()
-  const [loading, setLoading] = useState(false)
   const { setUser } = useGlobalStore()
 
   const handleLogin = (values: FormValues) => {
-    setLoading(true)
     apiLogin(values.username, values.password)
       .then(user => {
         navigate(HOME)
         setUser(user)
       })
       .catch(error => notification?.notifyError({ message: error.message }))
-      .finally(() => setLoading(false))
   }
 
   return (

@@ -1,29 +1,27 @@
-import { FC, useState } from 'react'
-import { Card, Layout, List, Spin } from 'antd'
+import { FC } from 'react'
+import { Card, Layout, List } from 'antd'
 import { FileOutlined } from '@ant-design/icons'
 import useGlobalStore from '@/store/globalStore'
-import apiDownloadFile from '@/api/materials/apiDownloadFile'
 import styles from './MaterialContent.module.css'
 import Chat from '@/components/ui/Chat/Chat'
-import { MaterialFile } from '@/types/data'
 
 const MaterialContent: FC = () => {
   const { selectedMaterial } = useGlobalStore()
 
-  const [loadingFiles, setLoadingFiles] = useState<Record<string, boolean>>({})
+  // const [loadingFiles, setLoadingFiles] = useState<Record<string, boolean>>({})
 
-  const handleFileDownload = async (file: MaterialFile) => {
-    setLoadingFiles(prev => ({ ...prev, [file.id]: true }))
+  // const handleFileDownload = async (file: MaterialFile) => {
+  //   setLoadingFiles(prev => ({ ...prev, [file.id]: true }))
 
-    try {
-      await apiDownloadFile(file.file_url, file.file_name)
-    } catch (error) {
-      console.error('Ошибка при скачивании файла:', error)
-    } finally {
-      // По завершении или при ошибке убираем флажок "загружается"
-      setLoadingFiles(prev => ({ ...prev, [file.id]: false }))
-    }
-  }
+  //   try {
+  //     await apiDownloadFile(file.file_url, file.file_name)
+  //   } catch (error) {
+  //     console.error('Ошибка при скачивании файла:', error)
+  //   } finally {
+  //     // По завершении или при ошибке убираем флажок "загружается"
+  //     setLoadingFiles(prev => ({ ...prev, [file.id]: false }))
+  //   }
+  // }
 
   if (!selectedMaterial) {
     return (
@@ -48,7 +46,7 @@ const MaterialContent: FC = () => {
             bordered
             dataSource={selectedMaterial.files}
             renderItem={file => {
-              const isLoading = !!loadingFiles[file.id]
+              // const isLoading = !!loadingFiles[file.id]
 
               return (
                 <List.Item className={styles.fileItem}>
@@ -66,9 +64,9 @@ const MaterialContent: FC = () => {
                     </a>
 
                     {/* Если файл загружается, показываем индикатор Spin */}
-                    {isLoading && (
-                      <Spin size="small" className={styles.spinner} />
-                    )}
+                    {/* {isLoading && (
+                     <Spin size="small" className={styles.spinner} />
+                    )} */}
                   </div>
                 </List.Item>
               )
