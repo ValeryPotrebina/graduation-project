@@ -1,6 +1,5 @@
 import { FC, useState } from 'react'
-import { Button, Input, Modal } from 'antd'
-import ChatButton from './ChatButton'
+import { Button, Input } from 'antd'
 import apiAskOpenai from '@/api/openai/apiAskOpenai'
 import './Chat.css'
 import { useNotificationService } from '@/providers/NotificationProvider'
@@ -11,22 +10,14 @@ interface ChatMessage {
 }
 
 const Chat: FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [messages, setMessages] = useState<ChatMessage[]>([]) // Состояние для хранения сообщений
-  const [question, setQuestion] = useState('') // Вопрос пользователя
-  const [loading, setLoading] = useState(false) // Состояние для загрузки
+  const [isOpen, setIsOpen] = useState(false)
+  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [question, setQuestion] = useState('')
+  const [loading, setLoading] = useState(false)
   const notification = useNotificationService()
 
-  const showModal = () => {
-    setIsModalOpen(true)
-  }
-
-  const handleOk = () => {
-    setIsModalOpen(false)
-  }
-
-  const handleCancel = () => {
-    setIsModalOpen(false)
+  const toggleChat = () => {
+    setIsOpen(prev => !prev)
   }
 
   const handleSendMessage = async () => {
@@ -37,15 +28,14 @@ const Chat: FC = () => {
       ...prevMessages,
       { sender: 'user', content: question },
     ])
-    setQuestion('') // Очищаем поле ввода
+    setQuestion('')
 
     setLoading(true)
 
     try {
-      // Отправляем запрос в OpenAI API
       const response = await apiAskOpenai(question)
       const answer = response.answer.content
-      // Добавляем ответ от OpenAI
+
       setMessages(prevMessages => [
         ...prevMessages,
         { sender: 'ai', content: answer },
@@ -62,26 +52,20 @@ const Chat: FC = () => {
   }
 
   return (
-    <div>
-      <ChatButton text="Ask a question here!" onClick={showModal} />
-      <Modal
-        title="Чат с OpenAI"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={null} // Убираем стандартные кнопки
-        width={500}
-        className="chat-modal"
-        bodyStyle={{ padding: '20px', height: '600px', overflowY: 'scroll' }}
-        mask={false} // Отключаем затемнение фона
-        maskClosable={false} // Отключаем закрытие окна при клике вне его
-      >
-        <div className="chat-container">
+    <div className={`floating-chat ${isOpen ? 'open' : 'closed'}`}>
+      <div className="chat-header" onClick={toggleChat}>
+        Чат с OpenAI
+      </div>
+
+      {isOpen && (
+        <div className="chat-body">
           <div className="chat-messages">
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`chat-message ${message.sender === 'user' ? 'user' : 'ai'}`}
+                className={`chat-message ${
+                  message.sender === 'user' ? 'user' : 'ai'
+                }`}
               >
                 <p>{message.content}</p>
               </div>
@@ -106,7 +90,7 @@ const Chat: FC = () => {
             </Button>
           </div>
         </div>
-      </Modal>
+      )}
     </div>
   )
 }

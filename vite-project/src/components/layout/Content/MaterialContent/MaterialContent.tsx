@@ -4,6 +4,7 @@ import { FileOutlined } from '@ant-design/icons'
 import useGlobalStore from '@/store/globalStore'
 import apiDownloadFile from '@/api/materials/apiDownloadFile'
 import styles from './MaterialContent.module.css'
+import Chat from '@/components/ui/Chat/Chat'
 
 const MaterialContent: FC = () => {
   const { selectedMaterial } = useGlobalStore()
@@ -79,6 +80,7 @@ const MaterialContent: FC = () => {
           <div>Нет прикрепленных файлов</div>
         )}
       </Card>
+      <Chat />
     </Layout.Content>
   )
 }

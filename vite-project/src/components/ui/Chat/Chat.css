@@ -1,46 +1,84 @@
-.chat-modal {
+.floating-chat {
     position: fixed;
-    top: 0;
-    right: 0;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    transition: opacity 0.3s ease;
+    bottom: 0;
+    right: 20px;
+    width: 350px;
+    border: 1px solid #ccc;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: height 0.3s ease;
+    background-color: #fff;
+    z-index: 10;
 }
 
-.chat-container {
+/* Заголовок (шапка) */
+.chat-header {
+    height: 48px;
+    background-color: #1890ff;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Когда чат закрыт, оставляем высоту только под заголовок */
+.floating-chat.closed {
+    height: 48px;
+}
+
+/* Когда чат открыт, делаем большее пространство для сообщений и ввода */
+.floating-chat.open {
+    height: 500px;
+    /* Можно настроить по вкусу */
+}
+
+/* Основной блок, содержащий сообщения и поле ввода */
+.chat-body {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: calc(100% - 48px);
+    /* Вычитаем высоту шапки */
 }
 
+/* Блок для сообщений */
 .chat-messages {
-    flex-grow: 1;
-    overflow-y: auto;
+    flex: 1;
     padding: 10px;
+    overflow-y: auto;
+    background-color: #f5f5f5;
 }
 
+/* Пример стилизации сообщений */
 .chat-message {
     margin-bottom: 10px;
     padding: 8px;
-    border-radius: 8px;
+    border-radius: 4px;
+    max-width: 80%;
 }
 
 .chat-message.user {
-    background-color: #e1ffc7;
-    align-self: flex-end;
+    margin-left: auto;
+    background-color: #bae7ff;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    /* цвет для пользователя */
 }
 
 .chat-message.ai {
-    background-color: #f1f0f0;
-    align-self: flex-start;
+    margin-right: auto;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
 }
 
+/* Поле ввода и кнопка */
 .chat-input {
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    gap: 8px;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
 }

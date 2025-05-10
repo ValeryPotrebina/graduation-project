@@ -3,9 +3,7 @@ import { FC } from 'react'
 import styles from './Content.module.css'
 import { Layout } from 'antd'
 import CourseInfo from '@/components/ui/CourseInfo/CourseInfo'
-// TODO Кэширование данных
-// TODO Материалы курса необходимо передавать в сайдер, так как там будет меню из материалов
-// Нужен провайдер.
+import Chat from '@/components/ui/Chat/Chat'
 
 const Content: FC = () => {
   const { selectedCourse } = useGlobalStore()
@@ -13,6 +11,7 @@ const Content: FC = () => {
   return (
     <Layout.Content className={styles.content}>
       <CourseInfo course={selectedCourse} />
+      <Chat />
     </Layout.Content>
   )
 }
