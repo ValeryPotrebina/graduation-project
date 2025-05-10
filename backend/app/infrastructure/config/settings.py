@@ -17,12 +17,23 @@ class DbSettings(BaseSettings):
         return f"postgresql+asyncpg://{self.USER}:{self.PASSWORD}@{self.HOST}:{self.PORT}/{self.NAME}"
 
 
+class OpenAISettings(BaseSettings):
+    API_KEY: str
+
+    model_config = SettingsConfigDict(
+        env_file="openai.env", env_file_encoding="utf-8")
+
+    def get_api_key(self) -> str:
+        return self.API_KEY
+
+
 class ApiPrefix(BaseModel):
     prefix: str = "/api"
     auth: str = "/auth"
     users: str = "/users"
     messages: str = "/messages"
     courses: str = "/courses"
+    openai: str = "/ask_openai"
     materials: str = "/materials"
     featured_courses: str = "/featured_courses"
     regist: str = "/register"
@@ -34,6 +45,7 @@ class ApiPrefix(BaseModel):
 class Settings(BaseSettings):
     db: DbSettings = DbSettings()
     api: ApiPrefix = ApiPrefix()
+    openai: OpenAISettings = OpenAISettings()
 
 
 settings = Settings()

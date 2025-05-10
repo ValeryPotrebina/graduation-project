@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from .course_routes import router as course_router
 from .auth_router import router as auth_router
 from .user_routes import router as user_router
+from .openai import router as openai_router
 
 router = APIRouter()
 
@@ -16,4 +17,8 @@ router.include_router(
 
 router.include_router(
     router=user_router
+)
+
+router.include_router(
+    router=openai_router
 )

@@ -6,6 +6,7 @@ import useGlobalStore from '@/store/globalStore'
 import apiLogout from '@/api/auth/apiLogout'
 import { useNotificationService } from '@/providers/NotificationProvider'
 import { AUTH, HOME } from '@/constants/paths'
+import Chat from '@/components/ui/Chat/Chat'
 const Header: FC = () => {
   const navigate = useNavigate()
   const { courses, user, setUser } = useGlobalStore()
@@ -71,6 +72,7 @@ const Header: FC = () => {
           optionFilterProp="label"
           options={coursesOptions}
         />
+        <Chat />
         <nav>
           <UserActions />
         </nav>

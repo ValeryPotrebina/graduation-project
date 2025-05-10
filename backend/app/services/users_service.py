@@ -27,12 +27,17 @@ class UsersService:
             email: str,
             is_teacher: bool = False
     ) -> User:
+        print(f"creating user, {username}, {password}, {email}")
 
         existing_user = await self.user_repo.get_user_by_username(username=username)
         if existing_user:
             raise Exception("User already exists")
 
+        print(f"user exists, {existing_user}")
+
         hashed_password = hash_password(password)
+
+        print(f"hashed password, {hashed_password}")
 
         new_user = User(
             username=username,
@@ -58,6 +63,8 @@ class UsersService:
         user = await self.user_repo.get_user_by_username(username=username)
         print("user", user)
         try:
+            print(f"login, {username}, {password}, {
+                  user.hashed_password}, {user.email}")
             if not user:
                 logger.error(f"User with username {username} not found")
                 raise Exception("User not found")

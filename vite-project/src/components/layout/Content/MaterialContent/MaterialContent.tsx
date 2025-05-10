@@ -42,9 +42,9 @@ const MaterialContent: FC = () => {
         style={{ width: '100%', height: '100%' }}
       >
         <p style={{ marginBottom: '25px' }}>{selectedMaterial.content}</p>
-
         {selectedMaterial.files && selectedMaterial.files.length > 0 ? (
           <List
+            style={{ marginTop: '25px' }}
             header={<div className={styles.filesHeader}>Файлы материала</div>}
             bordered
             dataSource={selectedMaterial.files}

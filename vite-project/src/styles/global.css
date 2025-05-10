@@ -11,10 +11,3 @@ body {
 #root {
     height: 100%;
 }
-
-::selection {
-    background-color: transparent;
-    /* Полностью убирает цвет выделения */
-    color: inherit;
-    /* Оставляет цвет текста неизменным */
-}

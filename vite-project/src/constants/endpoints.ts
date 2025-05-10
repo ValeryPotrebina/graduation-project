@@ -16,3 +16,6 @@ export const USERS_FEATURED_COURSES = '/users/featured_courses'
 // Materials endpoints
 export const MATERIALS = '/materials'
 export const FILES = '/files'
+
+// OpenAI endpoints
+export const OPENAI_ASK = '/ask_openai'

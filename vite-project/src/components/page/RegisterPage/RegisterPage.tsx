@@ -23,7 +23,7 @@ const RegisterPage: FC = () => {
   const notification = useNotificationService()
   const handleRegister = (values: FormValues) => {
     setLoading(true)
-    apiRegister(values.username, values.password, values.email)
+    apiRegister(values.username, values.email, values.password)
       .then(user => {
         navigate(HOME)
         setUser(user)
