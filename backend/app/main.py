@@ -1,3 +1,4 @@
+from fastapi.staticfiles import StaticFiles
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -38,6 +39,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+app.mount("/static", StaticFiles(directory=settings.static_dir), name="static")
 
 if __name__ == "__main__":
     import uvicorn

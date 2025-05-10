@@ -3,8 +3,10 @@ from typing import Annotated
 from fastapi import Cookie, Depends, HTTPException
 from pydantic import BaseModel
 from app.domain import User
+from app.infrastructure.config.settings import settings
 from app.infrastructure.persistence.repositories import CourseRepository, SessionRepository, UserRepository, MaterialRepository
 from app.infrastructure.persistence.repositories.file_repository import FileRepository
+from app.infrastructure.persistence.repositories.static_repository import StaticRepository
 from app.services import UsersService, CoursesService, MaterialsService
 from app.infrastructure.config.database import db_helper
 from app.infrastructure.config.ftp import ftp_helper
@@ -49,12 +51,21 @@ async def get_material_repo(session: AsyncSession = Depends(db_helper.session_ge
     return MaterialRepository(session=session)
 
 
+# async def get_file_repo(
+#         client: Client = Depends(ftp_helper.session_getter),
+#         session: AsyncSession = Depends(db_helper.session_getter)
+# ) -> FileRepository:
+#     return FileRepository(
+#         client=client,
+#         session=session,
+#     )
+
 async def get_file_repo(
-        client: Client = Depends(ftp_helper.session_getter),
+        static_dir: str = settings.static_dir,
         session: AsyncSession = Depends(db_helper.session_getter)
-) -> FileRepository:
-    return FileRepository(
-        client=client,
+) -> StaticRepository:
+    return StaticRepository(
+        static_dir=static_dir,
         session=session,
     )
 

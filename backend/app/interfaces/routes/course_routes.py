@@ -99,24 +99,24 @@ async def uploadFile(
     return AddFileToMaterialResponse(data=material)
 
 
-@router.get("/materials/{file_id}")
-async def download_file(
-    materials_service: MaterialsService = Depends(get_materials_service),
-    file_id: str = None
-):
-    try:
-        file_stream, filename = await materials_service.download_file(file_id)
-        return StreamingResponse(
-            file_stream,
-            media_type="application/octet-stream",
-            headers={
-                "Content-Disposition": f"attachment; filename={filename}",
-                "Content-Type": "application/octet-stream"
-            }
-        )
-    except Exception as e:
-        traceback.print_exc()
-        raise HTTPException(
-            status_code=404,
-            detail="File not found"
-        )
+# @router.get("/materials/{file_id}")
+# async def download_file(
+#     materials_service: MaterialsService = Depends(get_materials_service),
+#     file_id: str = None
+# ):
+#     try:
+#         file_stream, filename = await materials_service.download_file(file_id)
+#         return StreamingResponse(
+#             file_stream,
+#             media_type="application/octet-stream",
+#             headers={
+#                 "Content-Disposition": f"attachment; filename={filename}",
+#                 "Content-Type": "application/octet-stream"
+#             }
+#         )
+#     except Exception as e:
+#         traceback.print_exc()
+#         raise HTTPException(
+#             status_code=404,
+#             detail="File not found"
+#         )

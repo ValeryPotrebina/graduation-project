@@ -1,17 +1,15 @@
-import requester from '@/lib/axios/requester'
-import { MATERIALS, COURSES_LIST } from '@/constants/endpoints'
+import axios from 'axios'
 
 export default async function apiDownloadFile(
-  file_id: string,
+  file_url: string,
   file_name: string,
 ): Promise<void> {
   try {
-    const response = await requester.get(
-      `${COURSES_LIST}${MATERIALS}/${file_id}`,
-      {
+    const response = await axios
+      .create({ baseURL: 'http://localhost:8000' })
+      .get(file_url, {
         responseType: 'blob',
-      },
-    )
+      })
 
     const url = window.URL.createObjectURL(new Blob([response.data]))
 

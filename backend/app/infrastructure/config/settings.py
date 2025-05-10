@@ -46,6 +46,7 @@ class Settings(BaseSettings):
     db: DbSettings = DbSettings()
     api: ApiPrefix = ApiPrefix()
     openai: OpenAISettings = OpenAISettings()
+    static_dir: str = 'D:/BAUMAN/DIPLOM/graduation-project/files'
 
 
 settings = Settings()

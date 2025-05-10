@@ -5,25 +5,23 @@ import useGlobalStore from '@/store/globalStore'
 import apiDownloadFile from '@/api/materials/apiDownloadFile'
 import styles from './MaterialContent.module.css'
 import Chat from '@/components/ui/Chat/Chat'
+import { MaterialFile } from '@/types/data'
 
 const MaterialContent: FC = () => {
   const { selectedMaterial } = useGlobalStore()
 
-  // Храним состояние загрузки для каждого файла в виде объекта:
-  // ключ — это ID файла, значение — булево (true/false).
   const [loadingFiles, setLoadingFiles] = useState<Record<string, boolean>>({})
 
-  const handleFileDownload = async (fileId: string, fileName: string) => {
-    // Перед началом скачивания ставим флажок "загружается"
-    setLoadingFiles(prev => ({ ...prev, [fileId]: true }))
+  const handleFileDownload = async (file: MaterialFile) => {
+    setLoadingFiles(prev => ({ ...prev, [file.id]: true }))
 
     try {
-      await apiDownloadFile(fileId, fileName)
+      await apiDownloadFile(file.file_url, file.file_name)
     } catch (error) {
       console.error('Ошибка при скачивании файла:', error)
     } finally {
       // По завершении или при ошибке убираем флажок "загружается"
-      setLoadingFiles(prev => ({ ...prev, [fileId]: false }))
+      setLoadingFiles(prev => ({ ...prev, [file.id]: false }))
     }
   }
 
@@ -57,15 +55,22 @@ const MaterialContent: FC = () => {
                   <div className={styles.fileInfo}>
                     <FileOutlined className={styles.fileIcon} />
 
-                    {/* При клике запускаем загрузку */}
-                    <span
+                    <a
+                      href={`http://localhost:8000${file.file_url}`}
+                      download={file.file_name}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={styles.fileLink}
-                      onClick={() =>
-                        handleFileDownload(file.id, file.file_name)
-                      }
                     >
                       {file.file_name}
-                    </span>
+                    </a>
+                    {/* При клике запускаем загрузку */}
+                    {/* <span
+                      className={styles.fileLink}
+                      onClick={() => handleFileDownload(file)}
+                    >
+                      {file.file_name}
+                    </span> */}
 
                     {/* Если файл загружается, показываем индикатор Spin */}
                     {isLoading && (
