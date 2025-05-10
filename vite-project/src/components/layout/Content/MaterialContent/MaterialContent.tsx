@@ -54,7 +54,7 @@ const MaterialContent: FC = () => {
                     <FileOutlined className={styles.fileIcon} />
 
                     <a
-                      href={`http://localhost:8000${file.file_url}`}
+                      href={file.file_url}
                       download={file.file_name}
                       target="_blank"
                       rel="noopener noreferrer"

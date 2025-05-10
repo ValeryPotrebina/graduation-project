@@ -5,11 +5,9 @@ export default async function apiDownloadFile(
   file_name: string,
 ): Promise<void> {
   try {
-    const response = await axios
-      .create({ baseURL: 'http://localhost:8000' })
-      .get(file_url, {
-        responseType: 'blob',
-      })
+    const response = await axios.get(file_url, {
+      responseType: 'blob',
+    })
 
     const url = window.URL.createObjectURL(new Blob([response.data]))
 
