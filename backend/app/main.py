@@ -40,7 +40,8 @@ app.add_middleware(
 )
 
 
-app.mount("/static", StaticFiles(directory=settings.static_dir), name="static")
+app.mount(
+    "/static", StaticFiles(directory=settings.static.get_static_dir()), name="static")
 
 if __name__ == "__main__":
     import uvicorn

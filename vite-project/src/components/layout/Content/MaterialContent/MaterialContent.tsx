@@ -64,13 +64,6 @@ const MaterialContent: FC = () => {
                     >
                       {file.file_name}
                     </a>
-                    {/* При клике запускаем загрузку */}
-                    {/* <span
-                      className={styles.fileLink}
-                      onClick={() => handleFileDownload(file)}
-                    >
-                      {file.file_name}
-                    </span> */}
 
                     {/* Если файл загружается, показываем индикатор Spin */}
                     {isLoading && (

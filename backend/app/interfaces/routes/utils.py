@@ -3,6 +3,7 @@ from typing import Annotated
 from fastapi import Cookie, Depends, HTTPException
 from pydantic import BaseModel
 from app.domain import User
+from app.domain.materials.repositories import IFileRepository
 from app.infrastructure.config.settings import settings
 from app.infrastructure.persistence.repositories import CourseRepository, SessionRepository, UserRepository, MaterialRepository
 from app.infrastructure.persistence.repositories.file_repository import FileRepository
@@ -61,7 +62,7 @@ async def get_material_repo(session: AsyncSession = Depends(db_helper.session_ge
 #     )
 
 async def get_file_repo(
-        static_dir: str = settings.static_dir,
+        static_dir: str = settings.static.get_static_dir(),
         session: AsyncSession = Depends(db_helper.session_getter)
 ) -> StaticRepository:
     return StaticRepository(
@@ -73,7 +74,7 @@ async def get_file_repo(
 async def get_materials_service(
         course_repo: CourseRepository = Depends(get_course_repo),
         material_repo: MaterialRepository = Depends(get_material_repo),
-        file_repo: FileRepository = Depends(get_file_repo),
+        file_repo: IFileRepository = Depends(get_file_repo),
 ) -> MaterialsService:
     return MaterialsService(material_repo, course_repo, file_repo)
 
