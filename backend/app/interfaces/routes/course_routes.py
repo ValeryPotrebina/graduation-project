@@ -18,7 +18,7 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=CourseGetResponse)
+@router.get("", response_model=CourseGetResponse)
 async def get_courses(
         courses_service: CoursesService = Depends(get_courses_service),
 ):
