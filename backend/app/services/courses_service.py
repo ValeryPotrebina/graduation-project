@@ -11,6 +11,12 @@ class CoursesService:
         return await self.course_repo.get_courses()
 
     async def create_course(self, name: str, description: Optional[str], semester: int, teacher: Optional[str], hours: Optional[int]) -> Course:
-        new_course = Course(name=name, description=description,
-                            semester=semester, teacher=teacher, hours=hours)
-        return await self.course_repo.create_course(new_course)
+        new_course_domain_obj = Course(
+            name=name,
+            description=description,
+            semester=semester,
+            teacher=teacher,
+            hours=hours
+        )
+        created_course = await self.course_repo.create_course(new_course_domain_obj)
+        return created_course
