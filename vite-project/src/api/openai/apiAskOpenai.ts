@@ -2,9 +2,7 @@ import requester from '@/lib/axios/requester'
 import { OPENAI_ASK } from '@/constants/endpoints'
 
 interface OpenAIResponse {
-  answer: {
-    content: string
-  }
+  answer: string
 }
 
 export default async function apiAskOpenai(

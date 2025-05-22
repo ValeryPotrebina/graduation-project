@@ -34,7 +34,7 @@ const Chat: FC = () => {
 
     try {
       const response = await apiAskOpenai(question)
-      const answer = response.answer.content
+      const answer = response.answer
 
       setMessages(prevMessages => [
         ...prevMessages,
