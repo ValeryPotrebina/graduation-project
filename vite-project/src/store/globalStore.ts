@@ -1,3 +1,4 @@
+import apiGetCourses from '@/api/courses/apiGetCourses'
 import { Course, Material, UserData } from '@/types/data'
 import { create } from 'zustand'
 // zustant
@@ -10,6 +11,7 @@ interface IGlobalStore {
 
   courses: Course[]
   setCourses: (courses: Course[]) => void
+  fetchCourses: () => Promise<void>
 
   selectedCourse: Course | undefined
   setSelectedCourse: (course: Course | undefined) => void
@@ -29,6 +31,15 @@ const useGlobalStore = create<IGlobalStore>((set, get) => ({
 
   courses: [],
   setCourses: courses => set({ courses }),
+  fetchCourses: async () => {
+    try {
+      const courses = await apiGetCourses()
+      set({ courses })
+    } catch (error) {
+      console.error('Failed to fetch courses:', error)
+      set({ courses: [] })
+    }
+  },
 
   featuredCourses: [],
   setFeaturedCourses: featuredCourses => set({ featuredCourses }),

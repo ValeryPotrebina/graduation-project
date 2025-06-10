@@ -20,7 +20,7 @@ import styles from './ExtraServicesPage.module.css'
 import useGlobalStore from '@/store/globalStore'
 import { useNotificationService } from '@/providers/NotificationProvider'
 import apiPostCourse from '@/api/courses/apiPostCourses'
-import {MaterialType } from '@/types/data'
+import { Material, MaterialType } from '@/types/data'
 import apiPostMaterial from '@/api/materials/apiPostMaterial'
 import apiGetMaterialsByCourseId from '@/api/materials/apiGetMaterialsByCourseId'
 import apiPostFileToMaterial from '@/api/materials/apiPostFileToMaterial'
@@ -40,8 +40,9 @@ const ExtraServicesPage: FC = () => {
   const [courseForm] = Form.useForm()
   const [materialForm] = Form.useForm()
   const [fileForm] = Form.useForm()
+  const [materials, setMaterials] = useState<Material[]>([])
   const [materialsLoading, setMaterialsLoading] = useState(false)
-  const { user, courses, materials, setMaterials } = useGlobalStore()
+  const { user, courses, fetchCourses } = useGlobalStore()
   const notification = useNotificationService()
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const ExtraServicesPage: FC = () => {
       }
       await apiPostCourse(courseData)
       notification?.notifySuccess({ message: 'Успешно добавлен курс' })
+      await fetchCourses()
       courseForm.resetFields()
     } catch (error: any) {
       notification?.notifyError({
@@ -77,6 +79,7 @@ const ExtraServicesPage: FC = () => {
       const { courseId, ...materialData } = values
       await apiPostMaterial(courseId, materialData)
       notification?.notifySuccess({ message: 'Материал успешно добавлен' })
+      await fetchCourses()
       materialForm.resetFields()
     } catch (error: any) {
       notification?.notifyError({
@@ -105,6 +108,7 @@ const ExtraServicesPage: FC = () => {
     try {
       await apiPostFileToMaterial(materialId, formData)
       notification?.notifySuccess({ message: 'Файл успешно добавлен к материалу' })
+      await fetchCourses()
       fileForm.resetFields()
       setMaterials([])
     } catch (error: any) {
