@@ -61,7 +61,7 @@ const Header: FC = () => {
 
     return (
       <Space>
-        <Button onClick={handleAuth}>AUTH</Button>
+        <Button onClick={handleAuth}>Зарегистрироваться</Button>
       </Space>
     )
   }
