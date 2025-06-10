@@ -10,7 +10,6 @@ const FeaturedStar: FC<Props> = ({ active, onClick }) => {
   const Icon = active ? StarFilled : StarOutlined
   const color = active ? 'gold' : '#999'
 
-  //   TODO: Сделать через css
   return (
     <Icon
       style={{

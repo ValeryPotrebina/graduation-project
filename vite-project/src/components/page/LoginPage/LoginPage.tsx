@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, Checkbox } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import apiLogin from '@/api/auth/apiLogin'
 import { useNotificationService } from '@/providers/NotificationProvider'
@@ -9,11 +9,11 @@ import styles from './LoginPage.module.css'
 import { Container } from 'react-bootstrap'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import Button from '@/components/ui/Button/Button'
-// TODO Logout не обновляется автоматически
 
 interface FormValues {
   username: string
   password: string
+  isTeacher?: boolean
 }
 const LoginPage: FC = () => {
   const navigate = useNavigate()
@@ -23,8 +23,20 @@ const LoginPage: FC = () => {
   const handleLogin = (values: FormValues) => {
     apiLogin(values.username, values.password)
       .then(user => {
-        navigate(HOME)
-        setUser(user)
+        console.log('user', user)
+        if (values.isTeacher) {
+          if (user.is_teacher) {
+            navigate(HOME)
+            setUser(user)
+          } else {
+            notification?.notifyError({
+              message: 'Этот вход только для учителей.',
+            })
+          }
+        } else {
+          navigate(HOME)
+          setUser(user)
+        }
       })
       .catch(error => notification?.notifyError({ message: error.message }))
   }
@@ -32,7 +44,7 @@ const LoginPage: FC = () => {
   return (
     <div className={styles.container}>
       <Container className={styles.formContainer}>
-        <h1 className={styles.title}>Log in</h1>
+        <h1 className={styles.title}>Вход</h1>
         <Form
           name="login"
           className={styles.form}
@@ -49,7 +61,7 @@ const LoginPage: FC = () => {
                 borderRadius: '0px',
               }}
               prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
+              placeholder="Имя пользователя"
             />
           </Form.Item>
 
@@ -64,12 +76,16 @@ const LoginPage: FC = () => {
               }}
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Password"
+              placeholder="Пароль"
             />
           </Form.Item>
 
+          <Form.Item name="isTeacher" valuePropName="checked">
+            <Checkbox>Войти как преподаватель</Checkbox>
+          </Form.Item>
+
           <Form.Item>
-            <Button text="SIGN IN"></Button>
+            <Button text="ВОЙТИ"></Button>
           </Form.Item>
         </Form>
       </Container>

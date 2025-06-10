@@ -23,6 +23,7 @@ async def register_user(
             username=request.username,
             password=request.password,
             email=request.email,
+            is_teacher=request.is_teacher
         )
 
         response.set_cookie("session_id", session_id)

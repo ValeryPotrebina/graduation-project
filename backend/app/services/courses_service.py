@@ -19,4 +19,5 @@ class CoursesService:
             hours=hours
         )
         created_course = await self.course_repo.create_course(new_course_domain_obj)
+
         return created_course

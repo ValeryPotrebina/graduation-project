@@ -2,11 +2,11 @@
 
 # Ключевые слова для анализа запроса (на русском, как спрашивает пользователь)
 KEYWORDS_TEACHER = [
-    "кто ведет", "преподавател", "препод", "учитель", "лектор", "кто читает курс", 
+    "кто ведет", "преподавател", "препод", "учитель", "лектор", "кто читает курс",
     "фамилия преподавателя", "имя преподавателя", "кто ответственный за курс", "чей курс"
 ]
 KEYWORDS_DESCRIPTION = [
-    "о чем", "описание", "про курс", "расскажи о", "содержание курса", "что изучаем", 
+    "о чем", "описание", "про курс", "расскажи о", "содержание курса", "что изучаем",
     "темы курса", "программа курса", "детали курса", "подробнее о курсе", "структура курса",
     "чему научусь", "цель курса"
 ]
@@ -23,12 +23,12 @@ KEYWORDS_SEMINARS = [
     "практикумы", "задачи для семинаров", "семинарские занятия", "покажи семинары"
 ]
 KEYWORDS_ALL_MATERIALS = [
-    "материалы", "все материалы", "какие есть материалы", "учебные материалы", 
+    "материалы", "все материалы", "какие есть материалы", "учебные материалы",
     "дополнительные материалы", "список всех материалов", "что почитать", "что посмотреть",
     "методички", "ресурсы по курсу"
 ]
 KEYWORDS_HOURS = [
-    "часов", "сколько часов", "количество часов", "объем курса", "трудоемкость", 
+    "часов", "сколько часов", "количество часов", "объем курса", "трудоемкость",
     "зачетные единицы", "кредиты", "длительность курса"
 ]
 
@@ -37,7 +37,7 @@ MATERIAL_TYPE_DB_LABS = "labs"
 MATERIAL_TYPE_DB_LECTURES = "lectures"
 MATERIAL_TYPE_DB_SEMINARS = "seminars"
 # Если появятся другие, добавить сюда, например:
-# MATERIAL_TYPE_DB_PRACTICE = "practice" 
+# MATERIAL_TYPE_DB_PRACTICE = "practice"
 # MATERIAL_TYPE_DB_EXAMS = "exams"
 
 # Русские названия типов материалов для вывода пользователю и для формирования имени по умолчанию
@@ -65,7 +65,7 @@ CONTEXT_HOURS_NOT_FOUND = "Информация о количестве часо
 
 # Общие шаблоны для материалов
 CONTEXT_MATERIALS_FOUND_HEADER = "По курсу '{course_name}' найдены следующие материалы типа '{material_type_rus_plural}' (всего {count}):"
-CONTEXT_MATERIAL_DEFAULT_NAME = "{material_type_rus_singular} {material_number_or_index}" 
+CONTEXT_MATERIAL_DEFAULT_NAME = "{material_type_rus_singular} {material_number_or_index}"
 CONTEXT_MATERIAL_CONTENT_PREVIEW = " (Содержание: {content_preview}...)"
 CONTEXT_MATERIALS_NOT_FOUND = "Материалы типа '{material_type_rus_plural}' по курсу '{course_name}' не найдены в базе данных."
 CONTEXT_MATERIALS_LOAD_ERROR = "Не удалось загрузить информацию о материалах типа '{material_type_rus_plural}' для курса '{course_name}'."
@@ -104,4 +104,4 @@ OPENAI_ROUTER_TAG = "openai"
 
 # HTTP Исключения
 HTTP_DETAIL_QUESTION_EMPTY = "Вопрос не может быть пустым."
-HTTP_DETAIL_INTERNAL_SERVER_ERROR_OPENAI = "Внутренняя ошибка сервера при обработке запроса к OpenAI: {error_message}" 
+HTTP_DETAIL_INTERNAL_SERVER_ERROR_OPENAI = "Внутренняя ошибка сервера при обработке запроса к OpenAI: {error_message}"

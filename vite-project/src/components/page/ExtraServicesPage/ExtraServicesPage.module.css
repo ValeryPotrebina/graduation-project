@@ -1,0 +1,144 @@
+.container {
+  padding: 2.5rem 1.5rem;
+  background-color: #f0f2f5; /* Более нейтральный фон */
+  min-height: calc(100vh);
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #333; /* Более темный цвет для контраста */
+  font-weight: 700;
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* Более современный шрифт */
+}
+
+/* Ограничиваем ширину контента */
+.contentWrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Чтобы скруглить углы у вкладок */
+}
+
+/* --- Стилизация вкладок --- */
+:global(.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab) {
+  border: none !important;
+  background: transparent !important;
+  transition: all 0.3s ease;
+  padding: 12px 24px !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+:global(.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab:hover) {
+  background-color: #f0f2f5 !important;
+}
+
+:global(.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab-active) {
+  font-weight: 600;
+  color: #1890ff !important;
+  background: #ffffff !important;
+  border-bottom: 2px solid #1890ff !important;
+}
+
+:global(.ant-tabs-card > .ant-tabs-nav .ant-tabs-nav-wrap) {
+  margin-bottom: 0;
+  background-color: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+:global(.ant-tabs-tab .ant-tabs-tab-btn) {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Увеличенный отступ */
+  font-weight: 500;
+  color: #555;
+}
+
+:global(.ant-tabs-tab-active .ant-tabs-tab-btn) {
+  color: #1890ff;
+}
+
+/* --- Стилизация карточек и форм --- */
+:global(.ant-tabs-tabpane .ant-card) {
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  padding: 2rem; /* Увеличенный внутренний отступ */
+  background-color: #ffffff; /* Явный белый фон */
+}
+
+/* Увеличиваем расстояние между элементами формы */
+:global(.ant-form-item) {
+  margin-bottom: 24px !important;
+}
+
+/* Стили для лейблов */
+:global(.ant-form-item-label > label) {
+  font-weight: 600 !important;
+  color: #333 !important;
+  padding-bottom: 8px; /* Увеличенный отступ */
+}
+
+/* Стилизация полей ввода */
+:global(.ant-input),
+:global(.ant-input-number-input),
+:global(.ant-input-affix-wrapper),
+:global(.ant-select-selector) {
+  border-radius: 6px !important;
+  border-color: #d9d9d9 !important;
+  transition: all 0.3s ease !important;
+}
+
+:global(.ant-input:focus),
+:global(.ant-input:hover),
+:global(.ant-input-number-input:focus),
+:global(.ant-input-number-input:hover),
+:global(.ant-input-affix-wrapper:focus),
+:global(.ant-input-affix-wrapper:hover),
+:global(.ant-input-affix-wrapper-focused),
+:global(.ant-select-focused .ant-select-selector) {
+  border-color: #1890ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+/* Стили для основных кнопок */
+:global(.ant-form-item .ant-btn-primary) {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: none;
+  height: 40px;
+  padding: 0 24px;
+  font-weight: 600;
+  border-radius: 6px; /* Скругляем углы */
+}
+
+:global(.ant-form-item .ant-btn-primary:hover) {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;  /* Немного уменьшил */
+  height: 28px; /* Немного уменьшил */
+  background-color: transparent;
+  color: #555;
+  border-radius: 50%;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+:global(.ant-tabs-tab-active) .iconWrapper {
+  color: white;
+  background-color: #1890ff;
+}
+
+.tabLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+} 

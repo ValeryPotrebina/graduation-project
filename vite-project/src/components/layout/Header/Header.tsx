@@ -5,11 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import useGlobalStore from '@/store/globalStore'
 import apiLogout from '@/api/auth/apiLogout'
 import { useNotificationService } from '@/providers/NotificationProvider'
-import { AUTH, HOME } from '@/constants/paths'
-import Chat from '@/components/ui/Chat/Chat'
+import { AUTH, EXTRA_SERVICES, HOME } from '@/constants/paths'
 const Header: FC = () => {
   const navigate = useNavigate()
-  const { courses, user, setUser } = useGlobalStore()
+  const { courses, user, setUser, isTeacher } = useGlobalStore()
   const notification = useNotificationService()
 
   const coursesOptions = courses.map(course => ({
@@ -39,6 +38,11 @@ const Header: FC = () => {
     if (user) {
       return (
         <Space>
+          {isTeacher() && (
+            <Button onClick={() => navigate(EXTRA_SERVICES)}>
+              Дополнительные сервисы
+            </Button>
+          )}
           <Avatar
             style={{
               backgroundColor: 'rgb(255, 255, 255)',
@@ -72,7 +76,7 @@ const Header: FC = () => {
           optionFilterProp="label"
           options={coursesOptions}
         />
-        <Chat />
+        
         <nav>
           <UserActions />
         </nav>

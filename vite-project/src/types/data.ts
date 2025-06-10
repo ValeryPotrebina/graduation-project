@@ -3,6 +3,7 @@ import { UUID } from 'crypto'
 export interface UserData {
   username: string
   email: string
+  is_teacher?: boolean
 }
 
 export interface Course {
@@ -15,6 +16,8 @@ export interface Course {
 }
 
 export interface Material {
+  id: number
+  course_id: number
   material_type: string
   name: string
   number: number

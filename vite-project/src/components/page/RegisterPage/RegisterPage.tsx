@@ -32,7 +32,7 @@ const RegisterPage: FC = () => {
   return (
     <div className={styles.container}>
       <Container className={styles.formContainer}>
-        <h1 className={styles.title}> Registration</h1>
+        <h1 className={styles.title}>Регистрация</h1>
         <Form
           className={styles.form}
           name="register"
@@ -53,7 +53,7 @@ const RegisterPage: FC = () => {
                 borderRadius: '0px',
               }}
               prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
+              placeholder="Имя пользователя"
             />
           </Form.Item>
 
@@ -71,7 +71,7 @@ const RegisterPage: FC = () => {
               }}
               prefix={<MailOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="email"
-              placeholder="Email"
+              placeholder="Электронная почта"
             />
           </Form.Item>
 
@@ -89,12 +89,12 @@ const RegisterPage: FC = () => {
               }}
               prefix={<LockOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Password"
+              placeholder="Пароль"
             />
           </Form.Item>
 
           <Form.Item>
-            <Button text="SIGN UP"></Button>
+            <Button text="ЗАРЕГИСТРИРОВАТЬСЯ"></Button>
           </Form.Item>
         </Form>
       </Container>

@@ -19,9 +19,11 @@ interface IGlobalStore {
 
   selectedMaterial: Material | undefined
   setSelectedMaterial: (material: Material | undefined) => void
+
+  isTeacher: () => boolean
 }
 
-const useGlobalStore = create<IGlobalStore>(set => ({
+const useGlobalStore = create<IGlobalStore>((set, get) => ({
   user: undefined,
   setUser: user => set({ user }),
 
@@ -39,6 +41,11 @@ const useGlobalStore = create<IGlobalStore>(set => ({
 
   selectedMaterial: undefined,
   setSelectedMaterial: selectedMaterial => set({ selectedMaterial }),
+
+  isTeacher: () => {
+    const user = get().user
+    return user ? !!user.is_teacher : false
+  },
 }))
 
 export default useGlobalStore

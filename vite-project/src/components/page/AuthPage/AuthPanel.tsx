@@ -14,16 +14,16 @@ const AuthPanel: FC<Props> = ({ isActive, onSwitch }) => {
       {isActive ? (
         <Panel
           onSwitch={onSwitch}
-          title="Welcome back!"
-          suptitle="Sign in to continue"
-          buttonText="SIGN IN"
+          title="Добро пожаловать!"
+          suptitle="Войдите, чтобы продолжить"
+          buttonText="ВОЙТИ"
         />
       ) : (
         <Panel
           onSwitch={onSwitch}
-          title="Hello, Friend!"
-          suptitle="Enter your personal details and start studying with us"
-          buttonText="SIGN UP"
+          title="Привет!"
+          suptitle="Введите свои личные данные и начните учиться вместе с нами"
+          buttonText="ЗАРЕГИСТРИРОВАТЬСЯ"
         />
       )}
     </div>
