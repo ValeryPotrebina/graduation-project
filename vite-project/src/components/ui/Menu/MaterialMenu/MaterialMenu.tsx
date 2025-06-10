@@ -16,23 +16,24 @@ const MaterialMenu: FC = () => {
     materialType: string
   }>()
 
-  const { materials, setMaterials } = useGlobalStore()
+  const { materials, setMaterials, setSelectedMaterial } = useGlobalStore()
   const notification = useNotificationService()
 
   useEffect(() => {
+    setMaterials([])
+    setSelectedMaterial(undefined)
+
     if (!courseId) {
-      setMaterials([])
       return
     }
     apiGetCourseMaterials(Number(courseId))
       .then(materials => {
         setMaterials(materials)
-        console.log('materials', materials)
       })
       .catch(error => {
         notification?.notifyError({ message: error.message })
       })
-  }, [Number(courseId)])
+  }, [courseId])
 
   const getMaterialNumbers = (type: string) => {
     const numbers = materials
